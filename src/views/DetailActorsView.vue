@@ -21,7 +21,7 @@ onMounted(async () => {
   <h1>Fiche Film n°{{ actor.id }}</h1>
   <h3>{{ actor.firstName ? actor.firstName : 'loading...' }}</h3>
   <p>{{ actor.lastName ? actor.lastName : 'loading...' }}</p>
-  <p>{{ actor.nationality.nationality }}</p>
+  <p>{{ actor.nationality }}</p>
   <div v-for="movies in actor.movies">
     <Movie :movie="movies" />
   </div>
