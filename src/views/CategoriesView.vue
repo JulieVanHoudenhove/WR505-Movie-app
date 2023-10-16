@@ -12,15 +12,28 @@ onMounted(async () => {
     }
   })
   categories.value = await categoriesResponse.json()
+
+  filter()
 })
+
+let resultat = ref([])
+let recherche = ref('')
+
+let filter = () => {
+  resultat.value = categories.value
+      .map((categorie, index) => ({ categorie, index }))
+      .filter(({ categorie }) => categorie.name.toLowerCase().includes(recherche.value.toLowerCase()));
+}
 </script>
 
 <template>
   <h1 class="text-2xl font-bold">Toutes les catégories</h1>
   <div class="my-xl">
+    <input placeholder="search a categorie" type="text" v-model="recherche" @input="filter" class="border-b">
+    <button @click="filter">Recherche</button>
     <div class="grid grid-cols-4">
-      <div v-if="categories" v-for="categorie in categories">
-        <p>{{ categorie.name }}</p>
+      <div v-if="categories" v-for="categorie in resultat">
+        <p>{{ categorie.categorie.name }}</p>
       </div>
       <div v-else>
         <p>Loading...</p>
