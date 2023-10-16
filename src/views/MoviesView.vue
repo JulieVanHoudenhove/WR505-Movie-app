@@ -23,7 +23,8 @@ let filter = () => {
   resultat.value = movies.value
       .map((movie, index) => ({ movie, index }))
       .filter(({ movie }) => movie.title.toLowerCase().includes(recherche.value.toLowerCase()));
-};</script>
+}
+</script>
 
 <template>
   <h1 class="text-2xl font-bold">Tous les films</h1>
