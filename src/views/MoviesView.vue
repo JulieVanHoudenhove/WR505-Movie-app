@@ -12,15 +12,27 @@ onMounted(async () => {
     }
   })
   movies.value = await movieResponse.json()
+
+  filter()
 })
-</script>
+
+let resultat = ref([])
+let recherche = ref('')
+
+let filter = () => {
+  resultat.value = movies.value
+      .map((movie, index) => ({ movie, index }))
+      .filter(({ movie }) => movie.title.toLowerCase().includes(recherche.value.toLowerCase()));
+};</script>
 
 <template>
   <h1 class="text-2xl font-bold">Tous les films</h1>
   <div class="my-xl">
+    <input placeholder="search a movie" type="text" v-model="recherche" @input="filter" class="border-b">
+    <button @click="filter">Recherche</button>
     <div class="grid grid-cols-4">
-      <div v-if="movies" v-for="movie in movies">
-        <Movie :movie="movie" />
+      <div v-if="movies" v-for="movie in resultat">
+        <Movie :movie="movie.movie" />
       </div>
       <div v-else>
         <p>Loading...</p>
