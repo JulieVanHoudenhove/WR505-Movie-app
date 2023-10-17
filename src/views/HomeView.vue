@@ -2,6 +2,12 @@
 import { onMounted, ref } from 'vue'
 import Movie from '@/components/Movie.vue'
 import Actor from '@/components/Actor.vue'
+import router from "@/router";
+
+const token = localStorage.getItem('token')
+if (!token) {
+  router.push('/login')
+}
 
 let movies = ref([])
 let actors = ref([])
@@ -10,16 +16,26 @@ onMounted(async () => {
   const movieResponse = await fetch('http://localhost:8000/api/movies?page=1', {
     headers: {
       'Content-Type': 'application/json',
-      'Accept': 'application/json'
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ' + token
     }
   })
+  if (movieResponse.status === 401) {
+    localStorage.removeItem('token')
+    router.push('/login')
+  }
   movies.value = await movieResponse.json()
   const actorResponse = await fetch('http://localhost:8000/api/actors?page=1', {
     headers: {
       'Content-Type': 'application/json',
-      'Accept': 'application/json'
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ' + token
     }
   })
+  if (actorResponse.status === 401) {
+    localStorage.removeItem('token')
+    router.push('/login')
+  }
   actors.value = await actorResponse.json()
 })
 </script>
