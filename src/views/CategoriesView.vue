@@ -1,6 +1,12 @@
 <script setup>
 import { onMounted, ref } from 'vue'
+import router from "@/router";
 import Movie from '@/components/Movie.vue'
+
+const token = localStorage.getItem('token')
+if (!token) {
+  router.push('/login')
+}
 
 let categories = ref([])
 
@@ -8,9 +14,14 @@ onMounted(async () => {
   const categoriesResponse = await fetch('http://localhost:8000/api/categories?page=1', {
     headers: {
       'Content-Type': 'application/json',
-      'Accept': 'application/json'
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ' + token
     }
   })
+  if (categoriesResponse.status === 401) {
+    localStorage.removeItem('token')
+    router.push('/login')
+  }
   categories.value = await categoriesResponse.json()
 
   filter()
