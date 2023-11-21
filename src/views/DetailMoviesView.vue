@@ -3,6 +3,7 @@ import { useRoute } from 'vue-router'
 import {onMounted, ref} from "vue";
 import Actor from "@/components/Actor.vue";
 import router from "@/router";
+import moment from "moment/moment";
 
 const token = localStorage.getItem('token')
 if (!token) {
@@ -33,12 +34,13 @@ onMounted(async () => {
 </script>
 
 <template>
-  <h1>Oui</h1>
+  <h1>Détail du film</h1>
   <h1>Fiche Film n°{{ movie.id }}</h1>
-  <h3>{{ movie.title ? movie.title : 'loading...' }}</h3>
-  <p>{{ movie.description ? movie.description : 'loading...' }}</p>
-  <p>{{ movie.duration }}</p>
-  <p>{{ movie.releaseDate }}</p>
+  <h3>Titre : {{ movie.title ? movie.title : 'loading...' }}</h3>
+  <p>Description : {{ movie.description ? movie.description : 'loading...' }}</p>
+  <p>Temps du film :{{ movie.duration ? movie.duration : 'loading...' }}</p>
+  <p>Date de sortie : {{ moment(movie.releaseDate).format('DD/MM/YYYY') }}</p>
+  <p>Sorti il y a {{ moment().diff(moment(movie.releaseDate), "month") }} mois</p>
   <div v-for="actors in movie.actor">
     <Actor :actor="actors" />
   </div>
