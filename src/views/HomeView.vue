@@ -9,6 +9,8 @@ if (!token) {
   router.push('/login')
 }
 
+const message = ref("")
+
 let movies = ref([])
 let actors = ref([])
 
@@ -37,12 +39,17 @@ onMounted(async () => {
     router.push('/login')
   }
   actors.value = await actorResponse.json()
+  message.value = localStorage.getItem('message')
+  if (message.value) {
+    localStorage.removeItem('message')
+  }
 })
 </script>
 
 <template>
   <main class="mx-36">
   <h1 class="text-2xl font-bold">Homepage</h1>
+  <p v-if="message">{{ message }}</p>
   <div class="my-xl">
     <h1 class="text-xl font-bold">4 films</h1>
     <div class="flex justify-between">

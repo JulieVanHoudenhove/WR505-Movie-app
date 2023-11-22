@@ -1,5 +1,14 @@
 <script setup>
 import router from "@/router";
+import {onMounted, ref} from 'vue'
+
+const message = ref("")
+onMounted(() => {
+  message.value = localStorage.getItem('message')
+  if (message.value) {
+    localStorage.removeItem('message')
+  }
+})
 const login = () => {
   fetch('http://localhost:8000/api/login_check', {
     method: 'POST',
@@ -17,7 +26,7 @@ const login = () => {
   .then(data => {
     // On stocke le token dans le localStorage
     localStorage.setItem('token', data.token)
-    console.log(data)
+    localStorage.setItem('message', 'You have been logged in')
     // On redirige vers la page d'accueil
     router.push('/')
   })
@@ -26,6 +35,7 @@ const login = () => {
 
 <template>
 <h1>Connexion</h1>
+  <p v-if="message">{{ message }}</p>
 <div>
   <div>
     <label for="email">Email</label>
