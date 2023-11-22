@@ -3,6 +3,8 @@ import HomeView from '../views/HomeView.vue'
 import MoviesView from '../views/MoviesView.vue'
 import ActorsView from '../views/ActorsView.vue'
 import CategoriesView from '../views/CategoriesView.vue'
+import LoginView from '../views/LoginView.vue'
+import LogoutView from '../views/LogoutView.vue'
 import DetailMoviesView from '../views/DetailMoviesView.vue'
 import DetailActorsView from '../views/DetailActorsView.vue'
 
@@ -44,6 +46,16 @@ const router = createRouter({
       path: '/categories',
       name: 'categories',
       component: CategoriesView
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: LoginView
+    },
+    {
+      path: '/logout',
+      name: 'logout',
+      component: LogoutView
     }
   ]
 })
