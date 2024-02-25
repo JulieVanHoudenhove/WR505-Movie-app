@@ -41,8 +41,11 @@ onMounted(async () => {
   <p>Temps du film :{{ movie.duration ? movie.duration : 'loading...' }}</p>
   <p>Date de sortie : {{ moment(movie.releaseDate).format('DD/MM/YYYY') }}</p>
   <p>Sorti il y a {{ moment().diff(moment(movie.releaseDate), "month") }} mois</p>
-  <div v-for="actors in movie.actor">
-    <Actor :actor="actors" />
+  <div v-if="movie.actor">
+    Les acteurs du film :
+    <div v-for="actors in movie.actor">
+      <Actor :actor="actors" />
+    </div>
   </div>
 </template>
 

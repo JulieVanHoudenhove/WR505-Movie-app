@@ -16,7 +16,7 @@ const props = defineProps({
       <h2>Titre : {{ movie.title }}</h2>
       <p>Description : {{ movie.description }}</p>
       <p>Durée : {{ movie.duration }}</p>
-      <p>Date de sortie : {{ moment(movie.release_date).format('DD/MM/YYYY') }}</p>
+      <p>Date de sortie : {{ moment(movie.releaseDate).format('DD/MM/YYYY') }}</p>
     </router-link>
   </div>
 </template>

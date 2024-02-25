@@ -11,8 +11,8 @@ if (!token) {
 let movies = ref([])
 let resultat = ref([])
 let recherche = ref('')
-let pageNext = ref('')
-let pagePrevious = ref('')
+let nextPage = ref('')
+let previousPage = ref('')
 
 onMounted(async () => {
   await getMovies()
@@ -31,8 +31,8 @@ async function getMovies() {
       return router.push('/login')
     } else {
       movies.value = data['hydra:member'];
-      pageNext.value = data['hydra:view']['hydra:next'];
-      pagePrevious.value = data['hydra:view']['hydra:previous'];
+      nextPage.value = data['hydra:view']['hydra:next'];
+      previousPage.value = data['hydra:view']['hydra:previous'];
     }
     filter()
   } catch (error) {
@@ -46,9 +46,9 @@ async function filter() {
       .filter(({ movie }) => movie.title.toLowerCase().includes(recherche.value.toLowerCase()));
 }
 
-async function previousPage() {
+async function pagePrevious() {
   try {
-    const response = await fetch(`http://localhost:8000${pagePrevious.value}`, {
+    const response = await fetch(`http://localhost:8000${previousPage.value}`, {
       headers: {
         'Authorization': 'Bearer ' + token
       }
@@ -59,8 +59,8 @@ async function previousPage() {
       return router.push('/login')
     } else {
       movies.value = data['hydra:member'];
-      pageNext.value = data['hydra:view']['hydra:next'];
-      pagePrevious.value = data['hydra:view']['hydra:previous'];
+      previousPage.value = data['hydra:view']['hydra:previous'];
+      nextPage.value = data['hydra:view']['hydra:next'];
       filter()
     }
   } catch (error) {
@@ -68,9 +68,9 @@ async function previousPage() {
   }
 }
 
-async function nextPage() {
+async function pageNext() {
   try {
-    const response = await fetch(`http://localhost:8000${pageNext.value}`, {
+    const response = await fetch(`http://localhost:8000${nextPage.value}`, {
       headers: {
         'Authorization': 'Bearer ' + token
       }
@@ -81,14 +81,21 @@ async function nextPage() {
       return router.push('/login')
     } else {
       movies.value = data['hydra:member'];
-      pageNext.value = data['hydra:view']['hydra:next'];
-      pagePrevious.value = data['hydra:view']['hydra:previous'];
+      previousPage.value = data['hydra:view']['hydra:previous'];
+      nextPage.value = data['hydra:view']['hydra:next'];
       filter()
     }
   } catch (error) {
     console.error('Une erreur s\'est produite', error)
   }
 }
+
+function createMovie() {
+  router.push('/create-movie')
+}
+
+const decodeToken = JSON.parse(atob(token.split('.')[1]));
+const roles = decodeToken.roles[0];
 
 </script>
 
@@ -97,6 +104,9 @@ async function nextPage() {
   <div class="my-xl">
     <input placeholder="search a movie" type="text" v-model="recherche" @input="filter" class="border-b">
     <button @click="filter">Recherche</button>
+    <div>
+      <button v-if="roles === 'ROLE_ADMIN'" @click="createMovie()">Ajouter un film</button>
+    </div>
     <div class="grid grid-cols-4">
       <div v-if="movies" v-for="movie in resultat">
         <Movie :movie="movie.movie" />
