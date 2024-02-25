@@ -48,7 +48,7 @@ async function filter() {
 
 async function pagePrevious() {
   try {
-    const response = await fetch(`http://localhost:8000${previousPage.value}`, {
+    const response = await fetch('http://localhost:8000' + previousPage.value, {
       headers: {
         'Authorization': 'Bearer ' + token
       }
@@ -70,7 +70,7 @@ async function pagePrevious() {
 
 async function pageNext() {
   try {
-    const response = await fetch(`http://localhost:8000${nextPage.value}`, {
+    const response = await fetch('http://localhost:8000' + nextPage.value, {
       headers: {
         'Authorization': 'Bearer ' + token
       }
@@ -117,9 +117,9 @@ const roles = decodeToken.roles[0];
     </div>
   </div>
   <div class="flex justify-between">
-    <button v-if="pagePrevious" @click="previousPage()">Précédent</button>
+    <button v-if="pagePrevious" @click="pagePrevious()">Précédent</button>
     <button v-else disabled>Précédent</button>
-    <button v-if="pageNext" @click="nextPage()">Suivant</button>
+    <button v-if="pageNext" @click="pageNext()">Suivant</button>
     <button v-else disabled>Suivant</button>
   </div>
 </template>
