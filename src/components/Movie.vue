@@ -17,6 +17,7 @@ if (!token) {
 }
 
 const toggleForm = ref(false)
+const emit = defineEmits(['updateMovie'])
 
 const decodeToken = JSON.parse(atob(token.split('.')[1]));
 const roles = decodeToken.roles[0];
@@ -64,7 +65,7 @@ function deleteMovie() {
       <button @click="deleteMovie()" v-if="roles === 'ROLE_ADMIN'">Supprimer</button>
   </div>
   <div v-if="toggleForm === true" class="bg-white">
-    <CreateMovieView :movie="movie" />
+    <CreateMovieView @update-movie="emit('updateMovie'); toggleForm = false" :movie="movie" />
   </div>
 </template>
 

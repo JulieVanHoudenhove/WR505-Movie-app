@@ -39,6 +39,8 @@ if (!roles.includes('ROLE_ADMIN')) {
   router.push('/')
 }
 
+const emit = defineEmits(['updateMovie'])
+
 onMounted(async () => {
   await getCategories();
   await getActors();
@@ -56,7 +58,7 @@ onMounted(async () => {
     movieBudget.value = props.movie.budget
     movieDirector.value = props.movie.director
     movieWebsite.value = props.movie.website
-    movieActors.value = props.movie.actor
+    movieActors.value = props.movie.actor.map(actor => actor['@id'])
   }
 });
 
@@ -111,7 +113,7 @@ async function createMovie() {
     'website': `${movieWebsite.value}`,
     'note': movieNote.value,
     'online': movieOnline.value,
-    'actor': movieActors.value.map(actor => 'http://localhost:8000/api/actors/' + actor),
+    'actor': movieActors.value,
   }
 
   try {
@@ -135,7 +137,44 @@ async function createMovie() {
     console.error('Erreur lors de la création du film :', error);
   }
 }
+async function updateMovie() {
+  const body = {
+    'title': `${movieTitle.value}`,
+    'description': `${movieDescription.value}`,
+    'releaseDate': `${movieReleaseDate.value}`,
+    'duration': movieDuration.value,
+    'category': movieCategory.value,
+    'director': `${movieDirector.value}`,
+    'entries': movieEntries.value,
+    'budget': movieBudget.value,
+    'website': `${movieWebsite.value}`,
+    'note': movieNote.value,
+    'online': movieOnline.value,
+    'actor': movieActors.value,
+  }
 
+  try {
+    const response = await fetch('http://localhost:8000/api/movies/' + props.movie.id, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      body: JSON.stringify(body)
+    });
+    const data = await response.json();
+    if (data.code === 401) {
+      localStorage.removeItem('token')
+      return router.push('/login')
+    } else {
+      await router.push('/movies')
+    }
+    emit('updateMovie')
+  } catch (error) {
+    console.error('Erreur lors de la modification du film :', error);
+  }
+}
 
 </script>
 
@@ -143,7 +182,7 @@ async function createMovie() {
   <div v-if="roles.includes('ROLE_ADMIN')">
     <h1 v-if="movie" class="text-2xl font-bold">Modifier un film</h1>
     <h1 v-else class="text-2xl font-bold">Créer un film</h1>
-    <form @submit.prevent="createMovie()" v-if="loading">
+    <form @submit.prevent="movie ? updateMovie() : createMovie()" v-if="loading">
       <div class="my-xl">
         <label for="movieTitle">Titre</label>
         <input type="text" v-model="movieTitle" id="movieTitle" class="border-b">
@@ -196,7 +235,7 @@ async function createMovie() {
       <div class="my-xl">
         <label for="movieActors">Actors</label>
         <select multiple v-model="movieActors" id="movieActors" class="border-b">
-          <option v-for="actor in actors" :key="actor.id" :value="actor.id">{{ actor.firstName ? actor.firstName : 'loading..' }} {{ actor.lastName ? actor.lastName : 'loading...' }}</option>
+          <option v-for="actor in actors" :key="actor.id" :value="actor['@id']">{{ actor.firstName ? actor.firstName : 'loading..' }} {{ actor.lastName ? actor.lastName : 'loading...' }}</option>
         </select>
       </div>
       <div class="my-xl">

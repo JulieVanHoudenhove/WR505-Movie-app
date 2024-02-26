@@ -42,8 +42,8 @@ async function getMovies() {
 
 async function filter() {
   resultat.value = movies.value
-      .map((movie, index) => ({ movie, index }))
-      .filter(({ movie }) => movie.title.toLowerCase().includes(recherche.value.toLowerCase()));
+  .map((movie, index) => ({ movie, index }))
+  .filter(({ movie }) => movie.title.toLowerCase().includes(recherche.value.toLowerCase()));
 }
 
 async function pagePrevious() {
@@ -109,7 +109,7 @@ const roles = decodeToken.roles[0];
     </div>
     <div class="grid grid-cols-4">
       <div v-if="movies" v-for="movie in resultat">
-        <Movie :movie="movie.movie" />
+        <Movie @update-movie="getMovies()" :movie="movie.movie" />
       </div>
       <div v-else>
         <p>Loading...</p>
