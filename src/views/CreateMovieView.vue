@@ -7,6 +7,13 @@ if (!token) {
   router.push('/login')
 }
 
+const props = defineProps({
+  movie: {
+    type: Object,
+    required: false
+  }
+})
+
 let loading = ref(false)
 
 let movieCategory = ref('')
@@ -15,7 +22,7 @@ let movieDescription = ref('')
 let movieReleaseDate = ref('')
 let movieDuration = ref('')
 let movieOnline = ref(true)
-let movieRate = ref('')
+let movieNote = ref('')
 let movieEntries = ref('')
 let movieBudget = ref('')
 let movieDirector = ref('')
@@ -23,6 +30,7 @@ let movieWebsite = ref('')
 let movieActors = ref([])
 let actors = ref([])
 let categories = ref([])
+
 
 const decodeToken = JSON.parse(atob(token.split('.')[1]));
 const roles = decodeToken.roles;
@@ -35,7 +43,21 @@ onMounted(async () => {
   await getCategories();
   await getActors();
   loading.value = true;
-  console.log(actors.value)
+
+  if (props.movie) {
+    movieCategory.value = props.movie.category
+    movieTitle.value = props.movie.title
+    movieDescription.value = props.movie.description
+    movieReleaseDate.value = props.movie.releaseDate.split('T')[0]
+    movieDuration.value = props.movie.duration
+    movieOnline.value = props.movie.online
+    movieNote.value = props.movie.note
+    movieEntries.value = props.movie.entries
+    movieBudget.value = props.movie.budget
+    movieDirector.value = props.movie.director
+    movieWebsite.value = props.movie.website
+    movieActors.value = props.movie.actor
+  }
 });
 
 async function getCategories() {
@@ -87,7 +109,7 @@ async function createMovie() {
     'entries': movieEntries.value,
     'budget': movieBudget.value,
     'website': `${movieWebsite.value}`,
-    'rating': movieRate.value,
+    'note': movieNote.value,
     'online': movieOnline.value,
     'actor': movieActors.value.map(actor => 'http://localhost:8000/api/actors/' + actor),
   }
@@ -119,7 +141,8 @@ async function createMovie() {
 
 <template>
   <div v-if="roles.includes('ROLE_ADMIN')">
-    <h1 class="text-2xl font-bold">Créer un film</h1>
+    <h1 v-if="movie" class="text-2xl font-bold">Modifier un film</h1>
+    <h1 v-else class="text-2xl font-bold">Créer un film</h1>
     <form @submit.prevent="createMovie()" v-if="loading">
       <div class="my-xl">
         <label for="movieTitle">Titre</label>
@@ -161,7 +184,7 @@ async function createMovie() {
       </div>
       <div class="my-xl">
         <label for="movieRate">Note</label>
-        <input type="number" v-model="movieRate" id="movieRate" class="border-b">
+        <input type="number" v-model="movieNote" id="movieRate" class="border-b">
       </div>
       <div class="my-xl">
         <label for="movieOnline">En ligne</label>
@@ -177,7 +200,8 @@ async function createMovie() {
         </select>
       </div>
       <div class="my-xl">
-        <button type="submit">Créer</button>
+        <button v-if="movie" type="submit">Modifier</button>
+        <button v-else type="submit">Créer</button>
       </div>
     </form>
   </div>

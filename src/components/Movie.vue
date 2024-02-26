@@ -1,6 +1,8 @@
 <script setup>
 import moment from 'moment'
 import router from "@/router";
+import { ref } from 'vue'
+import CreateMovieView from "@/views/CreateMovieView.vue";
 
 const props = defineProps({
   movie: {
@@ -13,6 +15,8 @@ const token = localStorage.getItem('token')
 if (!token) {
   router.push('/login')
 }
+
+const toggleForm = ref(false)
 
 const decodeToken = JSON.parse(atob(token.split('.')[1]));
 const roles = decodeToken.roles[0];
@@ -55,11 +59,13 @@ function deleteMovie() {
       <p>Description : {{ movie.description }}</p>
       <p>Durée : {{ movie.duration }}</p>
       <p>Date de sortie : {{ moment(movie.releaseDate).format('DD/MM/YYYY') }}</p>
-      <button @click="updateMovie()" v-if="roles === 'ROLE_ADMIN'">Modifier</button>
-      <button @click="deleteMovie()" v-if="roles === 'ROLE_ADMIN'">Supprimer</button>
     </router-link>
+      <button @click="toggleForm = true" v-if="roles === 'ROLE_ADMIN'">Modifier</button>
+      <button @click="deleteMovie()" v-if="roles === 'ROLE_ADMIN'">Supprimer</button>
+  </div>
+  <div v-if="toggleForm === true" class="bg-white">
+    <CreateMovieView :movie="movie" />
   </div>
 </template>
 
 <style scoped></style>
-```
