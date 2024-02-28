@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue'
 import Movie from '@/components/Movie.vue'
 import router from "@/router";
+import CreateMovieView from "@/views/CreateMovieView.vue";
 
 const token = localStorage.getItem('token')
 if (!token) {
@@ -90,9 +91,7 @@ async function pageNext() {
   }
 }
 
-function createMovie() {
-  router.push('/create-movie')
-}
+const toggleForm = ref(false)
 
 const decodeToken = JSON.parse(atob(token.split('.')[1]));
 const roles = decodeToken.roles[0];
@@ -105,7 +104,10 @@ const roles = decodeToken.roles[0];
     <input placeholder="search a movie" type="text" v-model="recherche" @input="filter" class="border-b">
     <button @click="filter">Recherche</button>
     <div>
-      <button v-if="roles === 'ROLE_ADMIN'" @click="createMovie()">Ajouter un film</button>
+      <button v-if="roles === 'ROLE_ADMIN'" @click="toggleForm = true">Ajouter un film</button>
+      <div v-if="toggleForm === true" class="bg-white">
+        <CreateMovieView @create-movie="getMovies(); toggleForm = false" />
+      </div>
     </div>
     <div class="grid grid-cols-4">
       <div v-if="movies" v-for="movie in resultat">
@@ -117,9 +119,9 @@ const roles = decodeToken.roles[0];
     </div>
   </div>
   <div class="flex justify-between">
-    <button v-if="pagePrevious" @click="pagePrevious()">Précédent</button>
+    <button v-if="previousPage" @click="pagePrevious()">Précédent</button>
     <button v-else disabled>Précédent</button>
-    <button v-if="pageNext" @click="pageNext()">Suivant</button>
+    <button v-if="nextPage" @click="pageNext()">Suivant</button>
     <button v-else disabled>Suivant</button>
   </div>
 </template>

@@ -22,10 +22,6 @@ const emit = defineEmits(['updateMovie'])
 const decodeToken = JSON.parse(atob(token.split('.')[1]));
 const roles = decodeToken.roles[0];
 
-function updateMovie() {
-
-}
-
 function deleteMovie() {
   const isConfirmed = window.confirm('Êtes-vous sûr de vouloir supprimer ce film ?');
   if (isConfirmed) {
@@ -55,7 +51,7 @@ function deleteMovie() {
 <template>
   <div>
     <router-link :to="`/movie/`+ movie.id">
-      <img src="https://source.unsplash.com/random/150x200/?film">
+      <img v-if="movie.filename" :src="'http://localhost:8000/images/movies/'+movie.filename" :alt="'affiche ' + movie.title">
       <h2>Titre : {{ movie.title }}</h2>
       <p>Description : {{ movie.description }}</p>
       <p>Durée : {{ movie.duration }}</p>

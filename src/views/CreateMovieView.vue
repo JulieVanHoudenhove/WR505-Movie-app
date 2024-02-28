@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import router from "@/router";
+import axios from "axios";
 
 const token = localStorage.getItem('token')
 if (!token) {
@@ -17,19 +18,20 @@ const props = defineProps({
 let loading = ref(false)
 
 let movieCategory = ref('')
-let movieTitle = ref('')
-let movieDescription = ref('')
+let movieTitle = ref('Title')
+let movieDescription = ref('Lorem ipsum dolor sit amet, consectetur tincidunt.2')
 let movieReleaseDate = ref('')
-let movieDuration = ref('')
+let movieDuration = ref(145)
 let movieOnline = ref(true)
-let movieNote = ref('')
-let movieEntries = ref('')
-let movieBudget = ref('')
-let movieDirector = ref('')
-let movieWebsite = ref('')
+let movieNote = ref(4)
+let movieEntries = ref(145)
+let movieBudget = ref(145)
+let movieDirector = ref('Directorzaada')
+let movieWebsite = ref('http://oui.non')
 let movieActors = ref([])
 let actors = ref([])
 let categories = ref([])
+let movieImage = ref('')
 
 
 const decodeToken = JSON.parse(atob(token.split('.')[1]));
@@ -39,7 +41,7 @@ if (!roles.includes('ROLE_ADMIN')) {
   router.push('/')
 }
 
-const emit = defineEmits(['updateMovie'])
+const emit = defineEmits(['updateMovie', "createMovie"])
 
 onMounted(async () => {
   await getCategories();
@@ -100,31 +102,32 @@ async function getActors() {
   }
 }
 
+let formData = new FormData();
+let fileChange = (e) => {
+  formData.append('file', e.target.files[0]);
+}
+
 async function createMovie() {
-  const body = {
-    'title': `${movieTitle.value}`,
-    'description': `${movieDescription.value}`,
-    'releaseDate': `${movieReleaseDate.value}`,
-    'duration': movieDuration.value,
-    'category': movieCategory.value,
-    'director': `${movieDirector.value}`,
-    'entries': movieEntries.value,
-    'budget': movieBudget.value,
-    'website': `${movieWebsite.value}`,
-    'note': movieNote.value,
-    'online': movieOnline.value,
-    'actor': movieActors.value,
-  }
+  formData.append('title', movieTitle.value);
+  formData.append('description', movieDescription.value);
+  formData.append('releaseDate', movieReleaseDate.value);
+  formData.append('duration', movieDuration.value);
+  formData.append('category', movieCategory.value);
+  formData.append('director', movieDirector.value);
+  formData.append('entries', movieEntries.value);
+  formData.append('budget', movieBudget.value);
+  formData.append('website', movieWebsite.value);
+  formData.append('note', movieNote.value);
+  formData.append('online', movieOnline.value);
+  formData.append('actor', JSON.stringify(movieActors.value));
 
   try {
     const response = await fetch('http://localhost:8000/api/movies', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
         'Authorization': 'Bearer ' + token
       },
-      body: JSON.stringify(body)
+      body: formData
     });
     const data = await response.json();
     if (data.code === 401) {
@@ -133,35 +136,32 @@ async function createMovie() {
     } else {
       await router.push('/movies')
     }
+    emit('createMovie')
   } catch (error) {
     console.error('Erreur lors de la création du film :', error);
   }
 }
 async function updateMovie() {
-  const body = {
-    'title': `${movieTitle.value}`,
-    'description': `${movieDescription.value}`,
-    'releaseDate': `${movieReleaseDate.value}`,
-    'duration': movieDuration.value,
-    'category': movieCategory.value,
-    'director': `${movieDirector.value}`,
-    'entries': movieEntries.value,
-    'budget': movieBudget.value,
-    'website': `${movieWebsite.value}`,
-    'note': movieNote.value,
-    'online': movieOnline.value,
-    'actor': movieActors.value,
-  }
+  formData.append('title', movieTitle.value);
+  formData.append('description', movieDescription.value);
+  formData.append('releaseDate', movieReleaseDate.value);
+  formData.append('duration', movieDuration.value);
+  formData.append('category', movieCategory.value);
+  formData.append('director', movieDirector.value);
+  formData.append('entries', movieEntries.value);
+  formData.append('budget', movieBudget.value);
+  formData.append('website', movieWebsite.value);
+  formData.append('note', movieNote.value);
+  formData.append('online', movieOnline.value);
+  formData.append('actor', JSON.stringify(movieActors.value));
 
   try {
     const response = await fetch('http://localhost:8000/api/movies/' + props.movie.id, {
-      method: 'PUT',
+      method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
         'Authorization': 'Bearer ' + token
       },
-      body: JSON.stringify(body)
+      body: formData
     });
     const data = await response.json();
     if (data.code === 401) {
@@ -237,6 +237,10 @@ async function updateMovie() {
         <select multiple v-model="movieActors" id="movieActors" class="border-b">
           <option v-for="actor in actors" :key="actor.id" :value="actor['@id']">{{ actor.firstName ? actor.firstName : 'loading..' }} {{ actor.lastName ? actor.lastName : 'loading...' }}</option>
         </select>
+      </div>
+      <div class="my-xl">
+        <label for="movieActors">Affiche</label>
+        <input type="file" id="movieImage" name="movieImage" accept="image/png, image/jpeg" @change="fileChange">
       </div>
       <div class="my-xl">
         <button v-if="movie" type="submit">Modifier</button>
