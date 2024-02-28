@@ -38,7 +38,7 @@ onMounted(async () => {
   <h1>Fiche Acteur n°{{ actor.id }}</h1>
   <h3>Prénom : {{ actor.firstName ? actor.firstName : 'loading...' }}</h3>
   <p>Nom : {{ actor.lastName ? actor.lastName : 'loading...' }}</p>
-  <p>Nationalité : {{ actor.nationality.pays ? actor.nationality.pays : 'loading...' }}</p>
+<!--  <p>Nationalité : {{ actor.nationality.pays ? actor.nationality.pays : 'loading...' }}</p>-->
   <p>Les films dans lesquels il a joué</p>
   <div v-for="movies in actor.movies">
     <Movie :movie="movies" />

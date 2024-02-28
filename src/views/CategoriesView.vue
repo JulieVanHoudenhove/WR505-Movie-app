@@ -1,7 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import router from "@/router";
-import Movie from '@/components/Movie.vue'
 
 const token = localStorage.getItem('token')
 if (!token) {
@@ -11,18 +10,19 @@ if (!token) {
 let categories = ref([])
 
 onMounted(async () => {
-  const categoriesResponse = await fetch('http://localhost:8000/api/categories?page=1', {
+  const categoryResponse = await fetch('http://localhost:8000/api/categories', {
     headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Authorization': 'Bearer ' + token
     }
   })
-  if (categoriesResponse.status === 401) {
+  if (categoryResponse.status === 401) {
     localStorage.removeItem('token')
     router.push('/login')
   }
-  categories.value = await categoriesResponse.json()
+  categories.value = await categoryResponse.json()
+  console.log(categories.value)
 
   filter()
 })
@@ -32,19 +32,19 @@ let recherche = ref('')
 
 let filter = () => {
   resultat.value = categories.value
-      .map((categorie, index) => ({ categorie, index }))
-      .filter(({ categorie }) => categorie.name.toLowerCase().includes(recherche.value.toLowerCase()));
+      .map((category, index) => ({ category, index }))
+      .filter(({ category }) => category.name.toLowerCase().includes(recherche.value.toLowerCase()));
 }
 </script>
 
 <template>
-  <h1 class="text-2xl font-bold">Toutes les catégories</h1>
-  <div class="my-xl">
-    <input placeholder="search a categorie" type="text" v-model="recherche" @input="filter" class="border-b">
+  <div>
+    <h1>Categories</h1>
+    <input placeholder="search a category" type="text" v-model="recherche" @input="filter" class="border-b">
     <button @click="filter">Recherche</button>
     <div class="grid grid-cols-4">
-      <div v-if="categories" v-for="categorie in resultat">
-        <p>{{ categorie.categorie.name }}</p>
+      <div v-if="categories" v-for="category in resultat">
+        <p>{{ category.category.name }}</p>
       </div>
       <div v-else>
         <p>Loading...</p>
