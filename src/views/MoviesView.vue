@@ -9,6 +9,11 @@ if (!token) {
   router.push('/login')
 }
 
+const toggleForm = ref(false)
+
+const decodeToken = JSON.parse(atob(token.split('.')[1]));
+const roles = decodeToken.roles[0];
+
 let movies = ref([])
 let recherche = ref('')
 let nextPage = ref('')
@@ -101,11 +106,6 @@ async function pageNext() {
     console.error('Une erreur s\'est produite', error)
   }
 }
-
-const toggleForm = ref(false)
-
-const decodeToken = JSON.parse(atob(token.split('.')[1]));
-const roles = decodeToken.roles[0];
 
 </script>
 
