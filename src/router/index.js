@@ -8,6 +8,7 @@ import LogoutView from '../views/LogoutView.vue'
 import DetailMoviesView from '../views/DetailMoviesView.vue'
 import DetailActorsView from '../views/DetailActorsView.vue'
 import CreateMovieView from '../views/CreateMovieView.vue'
+import CreateActorView from "@/views/CreateActorView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -62,6 +63,11 @@ const router = createRouter({
       path: '/create-movie',
       name: 'create-movie',
       component: CreateMovieView
+    },
+    {
+      path: '/create-actor',
+      name: 'create-actor',
+      component: CreateActorView
     }
   ]
 })
