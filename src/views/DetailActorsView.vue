@@ -38,9 +38,11 @@ onMounted(async () => {
   <h3>Prénom : {{ actor.firstName ? actor.firstName : 'loading...' }}</h3>
   <p>Nom : {{ actor.lastName ? actor.lastName : 'loading...' }}</p>
   <p>Nationalité : {{ actor.nationality.nationality ? actor.nationality.nationality : 'loading...' }}</p>
-  <p>Les films dans lesquels il a joué</p>
-  <div v-for="movies in actor.movies">
-    <Movie :movie="movies" />
+  <div v-if="actor.movies">
+    <p>Les films dans lesquels il a joué</p>
+    <div v-for="movies in actor.movies">
+      <Movie :movie="movies" />
+    </div>
   </div>
 </template>
 

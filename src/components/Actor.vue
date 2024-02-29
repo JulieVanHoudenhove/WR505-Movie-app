@@ -3,7 +3,7 @@ import router from "@/router";
 import { ref } from "vue";
 import CreateActorView from "@/views/CreateActorView.vue";
 
-defineProps({
+const props = defineProps({
   actor: {
     type: Object,
     required: true
@@ -16,29 +16,10 @@ if (!token) {
 }
 
 const toggleForm = ref(false)
-const emit = defineEmits(['updateActor'])
+const emit = defineEmits(['updateActor', 'deleteActor'])
 
 const decodeToken = JSON.parse(atob(token.split('.')[1]));
 const roles = decodeToken.roles[0];
-
-async function getNationality() {
-  try {
-    const response = await fetch('http://localhost:8000' + actor.nationality, {
-      headers: {
-        'Authorization': 'Bearer ' + token
-      }
-    });
-    const data = await response.json();
-    if (data.code === 401) {
-      localStorage.removeItem('token')
-      return router.push('/login')
-    } else {
-      nationalities.value = data['hydra:member'];
-    }
-  } catch (error) {
-    console.error('Une erreur s\'est produite lors de la récupération des données.', error);
-  }
-}
 
 function deleteActor() {
   const isConfirmed = window.confirm('Êtes-vous sûr de vouloir supprimer cet.te acteur.rice ?');
@@ -49,30 +30,30 @@ function deleteActor() {
         'Authorization': 'Bearer ' + token
       }
     })
-        .then(response => {
-          if (response.status === 401) {
-            localStorage.removeItem('token')
-            router.push('/login')
-          }
-          if (response.status === 204) {
-            router.push('/actors')
-          }
-        })
-        .catch(error => {
-          console.error('Une erreur s\'est produite', error)
-        })
+    .then(response => {
+      if (response.status === 401) {
+        localStorage.removeItem('token')
+        router.push('/login')
+      }
+      if (response.status === 204) {
+        emit('deleteActor')
+      }
+    })
+    .catch(error => {
+      console.error('Une erreur s\'est produite', error)
+    })
   }
 }
 
 </script>
 
 <template>
-  <div>
+  <div v-if="actor">
     <router-link :to="`/actor/`+ actor.id">
-      <img v-if="actor.filename" :src="'http://localhost:8000/images/actors/'+actors.filename" :alt="'photo ' + actor.firstName + ' ' + actor.lastName">
+      <img v-if="actor.filename" :src="'http://localhost:8000/images/actors/'+actor.filename" :alt="'photo ' + actor.firstName + ' ' + actor.lastName">
       <p>{{ actor.firstName }} {{ actor.lastName }}</p>
       <p>Récompense : {{ actor.reward }}</p>
-      <p>Nationalité : {{ actor.nationality }}</p>
+      <p>Nationalité : {{ actor.nationality.nationality }}</p>
     </router-link>
     <button @click="toggleForm = true" v-if="roles === 'ROLE_ADMIN'">Modifier</button>
     <button @click="deleteActor()" v-if="roles === 'ROLE_ADMIN'">Supprimer</button>

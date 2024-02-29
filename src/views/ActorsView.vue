@@ -122,7 +122,7 @@ async function pageNext() {
     </div>
     <div class="grid grid-cols-4">
       <div v-if="actors" v-for="actor in actors">
-        <Actor @update-actor="getActors()" :actor="actor" />
+        <Actor @update-actor="getActors()" @delete-actor="getActors()" :actor="actor" />
       </div>
       <div v-else>
         <p>Loading...</p>

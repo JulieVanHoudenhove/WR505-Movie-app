@@ -23,7 +23,6 @@ let actorMovies = ref([])
 let movies = ref([])
 let nationalities = ref([])
 let actorNationality = ref('')
-let actorImage = ref('')
 
 const decodeToken = JSON.parse(atob(token.split('.')[1]));
 const roles = decodeToken.roles;
@@ -36,21 +35,19 @@ const emit = defineEmits(['updateActor', "createActor"])
 
 onMounted(async () => {
   await getNationality();
-  await getMovies();
   loading.value = true;
 
   if (props.actor) {
-    actorFirstName.value = props.actor.first_name
-    actorLastName.value = props.actor.last_name
+    actorFirstName.value = props.actor.firstName
+    actorLastName.value = props.actor.lastName
     actorReward.value = props.actor.reward
-    actorNationality.value = props.actor.nationality
-    actorMovies.value = props.actor.movies.map(movie => movie['@id'])
+    actorNationality.value = props.actor.nationality['@id']
   }
 });
 
 async function getNationality() {
   try {
-    const response = await fetch('http://localhost:8000/api/nationalities', {
+    const response = await fetch('http://localhost:8000/api/nationalities?pagination=false', {
       headers: {
         'Authorization': 'Bearer ' + token
       }
@@ -67,25 +64,6 @@ async function getNationality() {
   }
 }
 
-async function getMovies() {
-  try {
-    const response = await fetch('http://localhost:8000/api/movies', {
-      headers: {
-        'Authorization': 'Bearer ' + token
-      }
-    });
-    const data = await response.json();
-    if (data.code === 401) {
-      localStorage.removeItem('token')
-      return router.push('/login')
-    } else {
-      movies.value = data['hydra:member'];
-    }
-  } catch (error) {
-    console.error('Une erreur s\'est produite lors de la récupération des données.', error);
-  }
-}
-
 let formData = new FormData();
 let fileChange = (e) => {
   formData.append('file', e.target.files[0]);
@@ -96,7 +74,6 @@ async function createActor() {
   formData.append('lastName', actorLastName.value);
   formData.append('reward', actorReward.value);
   formData.append('nationality', actorNationality.value);
-  formData.append('movie', JSON.stringify(actorMovies.value));
 
   try {
     const response = await fetch('http://localhost:8000/api/actors', {
@@ -123,7 +100,6 @@ async function updateActor() {
   formData.append('lastName', actorLastName.value);
   formData.append('reward', actorReward.value);
   formData.append('nationality', actorNationality.value);
-  formData.append('movie', JSON.stringify(actorMovies.value));
 
   try {
     const response = await fetch('http://localhost:8000/api/actors/' + props.actor.id, {
@@ -169,12 +145,6 @@ async function updateActor() {
         <label for="actorNationality">Nationalité</label>
         <select v-if="nationalities" v-model="actorNationality" id="actorNationality" class="border-b">
           <option v-for="nationality in nationalities" :value="nationality['@id']" :key="nationality['id']">{{ nationality.nationality }}</option>
-        </select>
-      </div>
-      <div class="my-xl">
-        <label for="actorMovies">Films</label>
-        <select multiple v-model="actorMovies" id="actorMovies" class="border-b">
-          <option v-for="movie in movies" :key="movie.id" :value="movie['@id']">{{ movie.title ? movie.title : 'loading..' }}</option>
         </select>
       </div>
       <div class="my-xl">
