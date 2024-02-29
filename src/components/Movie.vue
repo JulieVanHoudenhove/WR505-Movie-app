@@ -17,7 +17,7 @@ if (!token) {
 }
 
 const toggleForm = ref(false)
-const emit = defineEmits(['updateMovie'])
+const emit = defineEmits(['updateMovie', 'deleteMovie'])
 
 const decodeToken = JSON.parse(atob(token.split('.')[1]));
 const roles = decodeToken.roles[0];
@@ -37,7 +37,7 @@ function deleteMovie() {
         router.push('/login')
       }
       if (response.status === 204) {
-        router.push('/movies')
+        emit('deleteMovie')
       }
     })
     .catch(error => {

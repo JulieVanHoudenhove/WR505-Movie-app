@@ -122,7 +122,7 @@ async function pageNext() {
     </div>
     <div class="grid grid-cols-4">
       <div v-if="movies" v-for="movie in movies">
-        <Movie @update-movie="getMovies()" :movie="movie" />
+        <Movie @update-movie="getMovies()" @delete-movie="getMovies()" :movie="movie" />
       </div>
       <div v-else>
         <p>Loading...</p>

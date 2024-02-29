@@ -65,7 +65,7 @@ onMounted(async () => {
 
 async function getCategories() {
   try {
-    const response = await fetch('http://localhost:8000/api/categories', {
+    const response = await fetch('http://localhost:8000/api/categories?pagination=false', {
       headers: {
         'Authorization': 'Bearer ' + token
       }
@@ -84,7 +84,7 @@ async function getCategories() {
 
 async function getActors() {
   try {
-    const response = await fetch('http://localhost:8000/api/actors', {
+    const response = await fetch('http://localhost:8000/api/actors?pagination=false', {
       headers: {
         'Authorization': 'Bearer ' + token
       }
