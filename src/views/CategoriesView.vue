@@ -1,6 +1,8 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import router from "@/router";
+import CreateCategoryView from "@/views/CreateCategoryView.vue";
+import Category from "@/components/Category.vue";
 
 const token = localStorage.getItem('token')
 if (!token) {
@@ -115,12 +117,12 @@ async function pageNext() {
     <div>
       <button v-if="roles === 'ROLE_ADMIN'" @click="toggleForm = true">Ajouter une catégorie</button>
       <div v-if="toggleForm">
-        <CreateCategoryView @updateCategory="getCategories(); toggleForm = false" />
+        <CreateCategoryView @create-category="getCategories(); toggleForm = false" />
       </div>
     </div>
     <div class="grid grid-cols-4">
       <div v-if="categories" v-for="category in categories">
-        <p>{{ category.name }}</p>
+        <Category @update-category="getCategories()" @delete-category="getCategories()" :category="category" />
       </div>
       <div v-else>
         <p>Loading...</p>
