@@ -17,6 +17,7 @@ onMounted(() => {
         <RouterLink to="/movies">Movies | </RouterLink>
         <RouterLink to="/actors">Actors | </RouterLink>
         <RouterLink to="/categories">Categories | </RouterLink>
+        <RouterLink to="/profile">Profile | </RouterLink>
       </div>
       <div>
         <RouterLink to="/logout">Logout</RouterLink>
