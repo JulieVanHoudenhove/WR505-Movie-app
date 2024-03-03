@@ -55,6 +55,7 @@ async function editUser() {
       await router.push('/profile')
     }
     emit('updateProfile')
+    localStorage.setItem('reconnexionMessage', 'You need to reconnect to see the changes on your profile.')
   } catch (error) {
     console.error('Une erreur s\'est produite', error)
   }

@@ -3,10 +3,16 @@ import router from "@/router";
 import {onMounted, ref} from 'vue'
 
 const message = ref("")
+const reconnexionMessage = ref("")
+
 onMounted(() => {
   message.value = localStorage.getItem('message')
   if (message.value) {
     localStorage.removeItem('message')
+  }
+  reconnexionMessage.value = localStorage.getItem('reconnexionMessage')
+  if (reconnexionMessage.value) {
+    localStorage.removeItem('reconnexionMessage')
   }
 })
 const login = () => {
@@ -35,6 +41,7 @@ const login = () => {
 
 <template>
 <h1>Connexion</h1>
+  <p v-if="reconnexionMessage">{{ reconnexionMessage }}</p>
   <p v-if="message">{{ message }}</p>
 <div>
   <div>
