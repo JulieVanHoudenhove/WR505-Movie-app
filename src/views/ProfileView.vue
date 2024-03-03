@@ -38,11 +38,11 @@ async function getUser() {
 <template>
   <div>
     <h1>Profile</h1>
-    <p>{{ user.username }}</p>
-    <p>{{ user.email }}</p>
+    <p>Username : {{ user.username }}</p>
+    <p>Email : {{ user.email }}</p>
     <button @click="toggleForm = true">Edit</button>
     <div v-if="toggleForm === true" class="bg-white">
-      <CreateProfile @create-actor="getUser(); toggleForm = false" />
+      <CreateProfile @update-profile="getUser(); toggleForm = false" :user="user" />
     </div>
   </div>
 </template>
