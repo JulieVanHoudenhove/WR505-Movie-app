@@ -1,7 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import router from "@/router";
-import axios from "axios";
 
 const token = localStorage.getItem('token')
 if (!token) {
@@ -66,7 +65,7 @@ onMounted(async () => {
 
 async function getCategories() {
   try {
-    const response = await fetch('http://localhost:8000/api/categories', {
+    const response = await fetch('http://localhost:8000/api/categories?pagination=false', {
       headers: {
         'Authorization': 'Bearer ' + token
       }
@@ -85,7 +84,7 @@ async function getCategories() {
 
 async function getActors() {
   try {
-    const response = await fetch('http://localhost:8000/api/actors', {
+    const response = await fetch('http://localhost:8000/api/actors?pagination=false', {
       headers: {
         'Authorization': 'Bearer ' + token
       }
@@ -239,8 +238,8 @@ async function updateMovie() {
         </select>
       </div>
       <div class="my-xl">
-        <label for="movieActors">Affiche</label>
-        <input type="file" id="movieImage" name="movieImage" accept="image/png, image/jpeg" @change="fileChange">
+        <label for="movieFilename">Affiche</label>
+        <input type="file" id="movieFilename" name="movieFilename" accept="image/png, image/jpeg" @change="fileChange">
       </div>
       <div class="my-xl">
         <button v-if="movie" type="submit">Modifier</button>

@@ -17,7 +17,7 @@ if (!token) {
 }
 
 const toggleForm = ref(false)
-const emit = defineEmits(['updateMovie'])
+const emit = defineEmits(['updateMovie', 'deleteMovie'])
 
 const decodeToken = JSON.parse(atob(token.split('.')[1]));
 const roles = decodeToken.roles[0];
@@ -37,7 +37,7 @@ function deleteMovie() {
         router.push('/login')
       }
       if (response.status === 204) {
-        router.push('/movies')
+        emit('deleteMovie')
       }
     })
     .catch(error => {
@@ -51,14 +51,14 @@ function deleteMovie() {
 <template>
   <div>
     <router-link :to="`/movie/`+ movie.id">
-      <img v-if="movie.filename" :src="'http://localhost:8000/images/movies/'+movie.filename" :alt="'affiche ' + movie.title">
+      <img class="h-[310px]" v-if="movie.filename" :src="'http://localhost:8000/images/movies/'+movie.filename" :alt="'affiche ' + movie.title">
       <h2>Titre : {{ movie.title }}</h2>
       <p>Description : {{ movie.description }}</p>
       <p>Durée : {{ movie.duration }}</p>
       <p>Date de sortie : {{ moment(movie.releaseDate).format('DD/MM/YYYY') }}</p>
     </router-link>
-      <button @click="toggleForm = true" v-if="roles === 'ROLE_ADMIN'">Modifier</button>
-      <button @click="deleteMovie()" v-if="roles === 'ROLE_ADMIN'">Supprimer</button>
+    <button @click="toggleForm = true" v-if="roles === 'ROLE_ADMIN'">Modifier</button>
+    <button @click="deleteMovie()" v-if="roles === 'ROLE_ADMIN'">Supprimer</button>
   </div>
   <div v-if="toggleForm === true" class="bg-white">
     <CreateMovieView @update-movie="emit('updateMovie'); toggleForm = false" :movie="movie" />
