@@ -51,7 +51,7 @@ function deleteMovie() {
 <template>
   <div>
     <router-link :to="`/movie/`+ movie.id">
-      <img v-if="movie.filename" :src="'http://localhost:8000/images/movies/'+movie.filename" :alt="'affiche ' + movie.title">
+      <img class="h-[310px]" v-if="movie.filename" :src="'http://localhost:8000/images/movies/'+movie.filename" :alt="'affiche ' + movie.title">
       <h2>Titre : {{ movie.title }}</h2>
       <p>Description : {{ movie.description }}</p>
       <p>Durée : {{ movie.duration }}</p>
