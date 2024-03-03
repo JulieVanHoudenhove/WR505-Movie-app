@@ -50,7 +50,7 @@ function deleteActor() {
 <template>
   <div v-if="actor">
     <router-link :to="`/actor/`+ actor.id">
-      <img v-if="actor.filename" :src="'http://localhost:8000/images/actors/'+actor.filename" :alt="'photo ' + actor.firstName + ' ' + actor.lastName">
+      <img class="h-[310px]" v-if="actor.filename" :src="'http://localhost:8000/images/actors/'+actor.filename" :alt="'photo ' + actor.firstName + ' ' + actor.lastName">
       <p>{{ actor.firstName }} {{ actor.lastName }}</p>
       <p>Récompense : {{ actor.reward }}</p>
       <p>Nationalité : {{ actor.nationality.nationality }}</p>

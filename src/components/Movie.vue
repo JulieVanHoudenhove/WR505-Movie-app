@@ -57,8 +57,8 @@ function deleteMovie() {
       <p>Durée : {{ movie.duration }}</p>
       <p>Date de sortie : {{ moment(movie.releaseDate).format('DD/MM/YYYY') }}</p>
     </router-link>
-      <button @click="toggleForm = true" v-if="roles === 'ROLE_ADMIN'">Modifier</button>
-      <button @click="deleteMovie()" v-if="roles === 'ROLE_ADMIN'">Supprimer</button>
+    <button @click="toggleForm = true" v-if="roles === 'ROLE_ADMIN'">Modifier</button>
+    <button @click="deleteMovie()" v-if="roles === 'ROLE_ADMIN'">Supprimer</button>
   </div>
   <div v-if="toggleForm === true" class="bg-white">
     <CreateMovieView @update-movie="emit('updateMovie'); toggleForm = false" :movie="movie" />
