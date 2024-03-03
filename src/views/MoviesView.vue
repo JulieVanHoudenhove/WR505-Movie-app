@@ -110,30 +110,36 @@ async function pageNext() {
 </script>
 
 <template>
-  <h1 class="text-2xl font-bold">Tous les films</h1>
-  <div class="my-xl">
-    <input placeholder="search a movie" type="text" v-model="recherche" @input="searchMovie" class="border-b">
-    <button @click="searchMovie">Recherche</button>
-    <div>
-      <button v-if="roles === 'ROLE_ADMIN'" @click="toggleForm = true">Ajouter un film</button>
-      <div v-if="toggleForm === true" class="bg-white">
-        <CreateMovieView @create-movie="getMovies(); toggleForm = false" />
+  <div class="px-20 lg:px-30 xl:px-40">
+    <h1 class="text-4xl text-center p-10 font-bold">Tous les films</h1>
+    <div class="flex gap-7 flex-col justify-center items-center m-10">
+      <div class="flex flex-col md:flex-row items-center gap-5">
+        <input placeholder="rechercher un film" type="text" v-model="recherche" @input="searchMovie" class="border-b rounded-md">
+        <button class="h-[42px] w-fit bg-[#D64343] text-white rounded-md border border-[#D64343] hover:bg-transparent hover:text-[#D64343] px-5" @click="searchMovie">Recherche</button>
+      </div>
+      <button class="w-fit h-[42px] bg-[#D64343] text-white rounded-md border border-[#D64343] hover:bg-transparent hover:text-[#D64343] px-5" v-if="roles === 'ROLE_ADMIN'" @click="toggleForm = true">Ajouter un film</button>
+    </div>
+    <div class="my-xl">
+      <div>
+        <div v-if="toggleForm === true" class="bg-white">
+          <CreateMovieView @create-movie="getMovies(); toggleForm = false" />
+        </div>
+      </div>
+      <div class="flex flex-col justify-center items-center 2xl:grid 2xl:grid-cols-2 gap-10">
+        <div v-if="movies" v-for="movie in movies">
+          <Movie @update-movie="getMovies()" @delete-movie="getMovies()" :movie="movie" />
+        </div>
+        <div v-else>
+          <p>Loading...</p>
+        </div>
       </div>
     </div>
-    <div class="grid grid-cols-4">
-      <div v-if="movies" v-for="movie in movies">
-        <Movie @update-movie="getMovies()" @delete-movie="getMovies()" :movie="movie" />
-      </div>
-      <div v-else>
-        <p>Loading...</p>
-      </div>
+    <div class="flex my-16 justify-between">
+      <button class="w-fit h-[42px] bg-[#D64343] text-white rounded-md border border-[#D64343] hover:bg-transparent hover:text-[#D64343] px-5" v-if="previousPage" @click="pagePrevious()">Précédent</button>
+      <button class="cursor-not-allowed w-fit h-[42px] hover:bg-[#D64343] hover:text-white rounded-md border border-[#D64343] bg-transparent text-[#D64343] px-5" v-else disabled>Précédent</button>
+      <button class="w-fit h-[42px] bg-[#D64343] text-white rounded-md border border-[#D64343] hover:bg-transparent hover:text-[#D64343] px-5" v-if="nextPage" @click="pageNext()">Suivant</button>
+      <button class="cursor-not-allowed w-fit h-[42px] hover:bg-[#D64343] hover:text-white rounded-md border border-[#D64343] bg-transparent text-[#D64343] px-5" v-else disabled>Suivant</button>
     </div>
-  </div>
-  <div class="flex justify-between">
-    <button v-if="previousPage" @click="pagePrevious()">Précédent</button>
-    <button v-else disabled>Précédent</button>
-    <button v-if="nextPage" @click="pageNext()">Suivant</button>
-    <button v-else disabled>Suivant</button>
   </div>
 </template>
 
