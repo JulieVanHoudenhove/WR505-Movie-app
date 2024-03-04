@@ -15,9 +15,7 @@
 2. Installer les dépendances
      ```bash
        npm i
-     ```
-  ou 
-     ```bash
+       # ou
        npm install
      ```
 3. Modifier le fichier .env en rensignant le lien vers l'api
