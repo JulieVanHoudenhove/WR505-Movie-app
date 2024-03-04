@@ -2,6 +2,7 @@
 import router from "@/router";
 import {onMounted, ref} from 'vue'
 
+const API_URL = import.meta.env.VITE_SERVER_API_URL;
 const message = ref("")
 const reconnexionMessage = ref("")
 
@@ -16,7 +17,7 @@ onMounted(() => {
   }
 })
 const login = () => {
-  fetch('http://localhost:8000/api/login_check', {
+  fetch(API_URL + '/api/login_check', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

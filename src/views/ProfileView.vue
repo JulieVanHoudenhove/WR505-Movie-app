@@ -3,6 +3,7 @@ import { onMounted, ref } from "vue"
 import router from "@/router";
 import CreateProfile from "@/views/CreateProfile.vue";
 
+const API_URL = import.meta.env.VITE_SERVER_API_URL;
 const token = localStorage.getItem('token')
 if (!token) {
   router.push('/login')
@@ -17,7 +18,7 @@ onMounted(async () => {
 
 async function getUser() {
   try {
-    const response = await fetch('http://localhost:8000/api/me', {
+    const response = await fetch(API_URL + '/api/me', {
       headers: {
         'Authorization': 'Bearer ' + token
       }

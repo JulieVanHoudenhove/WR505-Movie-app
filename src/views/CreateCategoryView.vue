@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import router from "@/router";
 
+const API_URL = import.meta.env.VITE_SERVER_API_URL;
 const token = localStorage.getItem('token')
 if (!token) {
   router.push('/login')
@@ -40,7 +41,7 @@ let formData = new FormData()
 async function createCategory() {
   formData.append('name', categoryName.value)
   try {
-    const response = await fetch('http://localhost:8000/api/categories', {
+    const response = await fetch(API_URL + '/api/categories', {
       method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + token
@@ -63,7 +64,7 @@ async function createCategory() {
 async function updateCategory() {
   formData.append('name', categoryName.value)
   try {
-    const response = await fetch('http://localhost:8000/api/categories/' + props.category.id, {
+    const response = await fetch(API_URL + '/api/categories/' + props.category.id, {
       method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + token

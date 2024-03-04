@@ -4,6 +4,7 @@ import router from "@/router";
 import { ref } from 'vue'
 import CreateMovieView from "@/views/CreateMovieView.vue";
 
+const API_URL = import.meta.env.VITE_SERVER_API_URL;
 const props = defineProps({
   movie: {
     type: Object,
@@ -25,7 +26,7 @@ const roles = decodeToken.roles[0];
 function deleteMovie() {
   const isConfirmed = window.confirm('Êtes-vous sûr de vouloir supprimer ce film ?');
   if (isConfirmed) {
-    fetch('http://localhost:8000/api/movies/' + props.movie.id, {
+    fetch(API_URL + '/api/movies/' + props.movie.id, {
       method: 'DELETE',
       headers: {
         'Authorization': 'Bearer ' + token

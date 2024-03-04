@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue'
 import router from "@/router";
 
+const API_URL = import.meta.env.VITE_SERVER_API_URL;
 const token = localStorage.getItem('token')
 if (!token) {
   router.push('/login')
@@ -65,7 +66,7 @@ onMounted(async () => {
 
 async function getCategories() {
   try {
-    const response = await fetch('http://localhost:8000/api/categories?pagination=false', {
+    const response = await fetch(API_URL + '/api/categories?pagination=false', {
       headers: {
         'Authorization': 'Bearer ' + token
       }
@@ -84,7 +85,7 @@ async function getCategories() {
 
 async function getActors() {
   try {
-    const response = await fetch('http://localhost:8000/api/actors?pagination=false', {
+    const response = await fetch(API_URL + '/api/actors?pagination=false', {
       headers: {
         'Authorization': 'Bearer ' + token
       }
@@ -121,7 +122,7 @@ async function createMovie() {
   formData.append('actor', JSON.stringify(movieActors.value));
 
   try {
-    const response = await fetch('http://localhost:8000/api/movies', {
+    const response = await fetch(API_URL + '/api/movies', {
       method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + token
@@ -155,7 +156,7 @@ async function updateMovie() {
   formData.append('actor', JSON.stringify(movieActors.value));
 
   try {
-    const response = await fetch('http://localhost:8000/api/movies/' + props.movie.id, {
+    const response = await fetch(API_URL + '/api/movies/' + props.movie.id, {
       method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + token
