@@ -36,8 +36,8 @@
 
 Les identifiants par défauts pour se connecter à l'application sont :
   - Admin
-      email : ```bash admin@gmail.com ```
-      mot de passe : ```bash admin ```
+      - email : ```bash admin@gmail.com ```
+      - mot de passe : ```bash admin ```
   - User
-      email : ```bash user1@gmail.com ```
-      mot de passe : ```bash password1 ```
+      - email : ```bash user1@gmail.com ```
+      - mot de passe : ```bash password1 ```
