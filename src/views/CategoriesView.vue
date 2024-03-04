@@ -4,6 +4,7 @@ import router from "@/router";
 import CreateCategoryView from "@/views/CreateCategoryView.vue";
 import Category from "@/components/Category.vue";
 
+const API_URL = import.meta.env.VITE_SERVER_API_URL;
 const token = localStorage.getItem('token')
 if (!token) {
   router.push('/login')
@@ -25,7 +26,7 @@ onMounted(async () => {
 
 async function getCategories() {
   try {
-    const response = await fetch('http://localhost:8000/api/categories', {
+    const response = await fetch(API_URL + '/api/categories', {
       headers: {
         'Authorization': 'Bearer ' + token
       }
@@ -46,7 +47,7 @@ async function getCategories() {
 
 async function searchCategory() {
   try {
-    const response = await fetch('http://localhost:8000/api/categories?name=' + recherche.value, {
+    const response = await fetch(API_URL + '/api/categories?name=' + recherche.value, {
       headers: {
         'Authorization': 'Bearer ' + token
       }
@@ -67,7 +68,7 @@ async function searchCategory() {
 
 async function pagePrevious() {
   try {
-    const response = await fetch('http://localhost:8000' + previousPage.value, {
+    const response = await fetch(API_URL + previousPage.value, {
       headers: {
         'Authorization': 'Bearer ' + token
       }
@@ -88,7 +89,7 @@ async function pagePrevious() {
 
 async function pageNext() {
   try {
-    const response = await fetch('http://localhost:8000' + nextPage.value, {
+    const response = await fetch(API_URL + nextPage.value, {
       headers: {
         'Authorization': 'Bearer ' + token
       }

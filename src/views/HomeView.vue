@@ -4,6 +4,7 @@ import Movie from '@/components/Movie.vue'
 import Actor from '@/components/Actor.vue'
 import router from "@/router";
 
+const API_URL = import.meta.env.VITE_SERVER_API_URL;
 const token = localStorage.getItem('token')
 if (!token) {
   router.push('/login')
@@ -15,7 +16,7 @@ let movies = ref([])
 let actors = ref([])
 
 onMounted(async () => {
-  const movieResponse = await fetch('http://localhost:8000/api/movies?page=1', {
+  const movieResponse = await fetch(API_URL + '/api/movies?page=1', {
     headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
@@ -27,7 +28,7 @@ onMounted(async () => {
     router.push('/login')
   }
   movies.value = await movieResponse.json()
-  const actorResponse = await fetch('http://localhost:8000/api/actors?page=1', {
+  const actorResponse = await fetch(API_URL + '/api/actors?page=1', {
     headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
