@@ -133,20 +133,20 @@ async function updateActor() {
   <div class="flex flex-col items-center justify-center p-5">
     <form class="flex flex-col gap-5 items-center" @submit.prevent="actor ? updateActor() : createActor()" v-if="loading">
       <div class="flex gap-5 items-center">
-        <label for="actorFirstName">Prénom</label>
-        <input type="text" v-model="actorFirstName" id="actorFirstName" class="border-b rounded-md">
+        <label for="actorFirstName">Prénom<span class="text-[#D64343]">*</span></label>
+        <input required type="text" v-model="actorFirstName" id="actorFirstName" class="border-b rounded-md">
       </div>
       <div class="flex gap-5 items-center">
-        <label for="actorLastName">Nom</label>
-        <input type="text" v-model="actorLastName" id="actorLastName" class="border-b rounded-md">
+        <label for="actorLastName">Nom<span class="text-[#D64343]">*</span></label>
+        <input required type="text" v-model="actorLastName" id="actorLastName" class="border-b rounded-md">
       </div>
       <div class="flex gap-5 items-center">
         <label for="actorReward">Récompense</label>
         <input type="text" v-model="actorReward" id="actorReward" class="border-b rounded-md">
       </div>
       <div class="flex gap-5 items-center">
-        <label for="actorNationality">Nationalité</label>
-        <select v-if="nationalities" v-model="actorNationality" id="actorNationality" class="border-b rounded-md">
+        <label for="actorNationality">Nationalité<span class="text-[#D64343]">*</span></label>
+        <select required v-if="nationalities" v-model="actorNationality" id="actorNationality" class="border-b rounded-md">
           <option v-for="nationality in nationalities" :value="nationality['@id']" :key="nationality['id']">{{ nationality.nationality }}</option>
         </select>
       </div>
