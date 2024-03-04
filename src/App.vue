@@ -12,7 +12,7 @@ onMounted(() => {
 
 let activeLink = ref('/')
 function setActiveLink(route) {
-  this.activeLink = route;
+  activeLink.value = route;
 }
 
 </script>
