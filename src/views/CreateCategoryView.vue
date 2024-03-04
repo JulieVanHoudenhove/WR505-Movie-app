@@ -94,8 +94,8 @@ async function updateCategory() {
   <div class="flex flex-col items-center justify-center p-5">
     <form class="flex flex-col gap-5 items-center" @submit.prevent="category ? updateCategory() : createCategory()" v-if="loading">
       <div class="flex gap-5 items-center">
-        <label for="categoryName">Nom de la catégorie</label>
-        <input type="text" class="border-b rounded-md" id="categoryName" v-model="categoryName">
+        <label for="categoryName">Nom de la catégorie<span class="text-[#D64343]">*</span></label>
+        <input required type="text" class="border-b rounded-md" id="categoryName" v-model="categoryName">
       </div>
       <div class="flex gap-5 items-center">
         <button class="min-h-[42px] w-fit bg-[#D64343] text-white rounded-md border border-[#D64343] hover:bg-transparent hover:text-[#D64343] px-5" v-if="category" type="submit">Modifier</button>

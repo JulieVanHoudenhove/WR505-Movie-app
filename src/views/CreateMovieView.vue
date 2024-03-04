@@ -186,30 +186,30 @@ async function updateMovie() {
   <div class="flex flex-col items-center justify-center p-5">
     <form class="flex flex-col gap-5 items-center" @submit.prevent="movie ? updateMovie() : createMovie()" v-if="loading">
       <div class="flex gap-5 items-center">
-        <label for="movieTitle">Titre</label>
-        <input type="text" v-model="movieTitle" id="movieTitle" class="border-b rounded-md">
+        <label for="movieTitle">Titre<span class="text-[#D64343]">*</span></label>
+        <input required type="text" v-model="movieTitle" id="movieTitle" class="border-b rounded-md">
       </div>
       <div class="flex gap-5 items-center">
-        <label for="movieDescription">Description</label>
-        <textarea v-model="movieDescription" id="movieDescription" class="border-b rounded-md"></textarea>
+        <label for="movieDescription">Description<span class="text-[#D64343]">*</span></label>
+        <textarea minlength="50" required v-model="movieDescription" id="movieDescription" class="border-b rounded-md"></textarea>
       </div>
       <div class="flex gap-5 items-center">
-        <label for="movieReleaseDate">Date de sortie</label>
-        <input type="date" v-model="movieReleaseDate" id="movieReleaseDate" class="border-b rounded-md">
+        <label for="movieReleaseDate">Date de sortie<span class="text-[#D64343]">*</span></label>
+        <input required type="date" v-model="movieReleaseDate" id="movieReleaseDate" class="border-b rounded-md">
       </div>
       <div class="flex gap-5 items-center">
-        <label for="movieDuration">Durée</label>
-        <input type="number" v-model="movieDuration" id="movieDuration" class="border-b rounded-md">
+        <label for="movieDuration">Durée<span class="text-[#D64343]">*</span></label>
+        <input required min="15" type="number" v-model="movieDuration" id="movieDuration" class="border-b rounded-md">
       </div>
       <div class="flex gap-5 items-center">
-        <label for="movieCategory">Catégorie</label>
-        <select v-if="categories" v-model="movieCategory" id="movieCategory" class="border-b rounded-md">
+        <label for="movieCategory">Catégorie<span class="text-[#D64343]">*</span></label>
+        <select required v-if="categories" v-model="movieCategory" id="movieCategory" class="border-b rounded-md">
           <option v-for="category in categories" :value="category['@id']" :key="category['id']">{{ category.name }}</option>
         </select>
       </div>
       <div class="flex gap-5 items-center">
-        <label for="movieDirector">Réalisateur</label>
-        <input type="text" v-model="movieDirector" id="movieDirector" class="border-b rounded-md">
+        <label for="movieDirector">Réalisateur<span class="text-[#D64343]">*</span></label>
+        <input required type="text" v-model="movieDirector" id="movieDirector" class="border-b rounded-md">
       </div>
       <div class="flex gap-5 items-center">
         <label for="movieEntries">Entrées</label>
@@ -221,22 +221,22 @@ async function updateMovie() {
       </div>
       <div class="flex gap-5 items-center">
         <label for="movieWebsite">Site web</label>
-        <input type="text" v-model="movieWebsite" id="movieWebsite" class="border-b rounded-md">
+        <input type="url" v-model="movieWebsite" id="movieWebsite" class="border-b rounded-md">
       </div>
       <div class="flex gap-5 items-center">
         <label for="movieRate">Note</label>
-        <input type="number" v-model="movieNote" id="movieRate" class="border-b rounded-md">
+        <input min="0" max="5" type="number" v-model="movieNote" id="movieRate" class="border-b rounded-md">
       </div>
       <div class="flex gap-5 items-center">
-        <label for="movieOnline">En ligne</label>
-        <select v-model="movieOnline" id="movieOnline" class="border-b rounded-md">
+        <label for="movieOnline">En ligne<span class="text-[#D64343]">*</span></label>
+        <select  required v-model="movieOnline" id="movieOnline" class="border-b rounded-md">
           <option :value="true">Oui</option>
           <option :value="false">Non</option>
         </select>
       </div>
       <div class="flex gap-5 items-center">
-        <label for="movieActors">Actors</label>
-        <select multiple v-model="movieActors" id="movieActors" class="border-b rounded-md">
+        <label for="movieActors">Actors<span class="text-[#D64343]">*</span></label>
+        <select required multiple v-model="movieActors" id="movieActors" class="border-b rounded-md">
           <option v-for="actor in actors" :key="actor.id" :value="actor['@id']">{{ actor.firstName ? actor.firstName : 'loading..' }} {{ actor.lastName ? actor.lastName : 'loading...' }}</option>
         </select>
       </div>
