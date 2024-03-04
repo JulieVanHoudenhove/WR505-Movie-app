@@ -178,72 +178,74 @@ async function updateMovie() {
 </script>
 
 <template>
-  <div v-if="roles.includes('ROLE_ADMIN')">
+  <div v-if="roles.includes('ROLE_ADMIN')" class="flex items-center justify-center p-4 md:p-5 border-b rounded-t dark:border-gray-600">
     <h1 v-if="movie" class="text-2xl font-bold">Modifier un film</h1>
     <h1 v-else class="text-2xl font-bold">Créer un film</h1>
-    <form @submit.prevent="movie ? updateMovie() : createMovie()" v-if="loading">
-      <div class="my-xl">
+  </div>
+  <div class="flex flex-col items-center justify-center p-5">
+    <form class="flex flex-col gap-5 items-center" @submit.prevent="movie ? updateMovie() : createMovie()" v-if="loading">
+      <div class="flex gap-5 items-center">
         <label for="movieTitle">Titre</label>
-        <input type="text" v-model="movieTitle" id="movieTitle" class="border-b">
+        <input type="text" v-model="movieTitle" id="movieTitle" class="border-b rounded-md">
       </div>
-      <div class="my-xl">
+      <div class="flex gap-5 items-center">
         <label for="movieDescription">Description</label>
-        <textarea v-model="movieDescription" id="movieDescription" class="border-b"></textarea>
+        <textarea v-model="movieDescription" id="movieDescription" class="border-b rounded-md"></textarea>
       </div>
-      <div class="my-xl">
+      <div class="flex gap-5 items-center">
         <label for="movieReleaseDate">Date de sortie</label>
-        <input type="date" v-model="movieReleaseDate" id="movieReleaseDate" class="border-b">
+        <input type="date" v-model="movieReleaseDate" id="movieReleaseDate" class="border-b rounded-md">
       </div>
-      <div class="my-xl">
+      <div class="flex gap-5 items-center">
         <label for="movieDuration">Durée</label>
-        <input type="number" v-model="movieDuration" id="movieDuration" class="border-b">
+        <input type="number" v-model="movieDuration" id="movieDuration" class="border-b rounded-md">
       </div>
-      <div class="my-xl">
+      <div class="flex gap-5 items-center">
         <label for="movieCategory">Catégorie</label>
-        <select v-if="categories" v-model="movieCategory" id="movieCategory" class="border-b">
+        <select v-if="categories" v-model="movieCategory" id="movieCategory" class="border-b rounded-md">
           <option v-for="category in categories" :value="category['@id']" :key="category['id']">{{ category.name }}</option>
         </select>
       </div>
-      <div class="my-xl">
+      <div class="flex gap-5 items-center">
         <label for="movieDirector">Réalisateur</label>
-        <input type="text" v-model="movieDirector" id="movieDirector" class="border-b">
+        <input type="text" v-model="movieDirector" id="movieDirector" class="border-b rounded-md">
       </div>
-      <div class="my-xl">
+      <div class="flex gap-5 items-center">
         <label for="movieEntries">Entrées</label>
-        <input type="number" v-model="movieEntries" id="movieEntries" class="border-b">
+        <input type="number" v-model="movieEntries" id="movieEntries" class="border-b rounded-md">
       </div>
-      <div class="my-xl">
+      <div class="flex gap-5 items-center">
         <label for="movieBudget">Budget</label>
-        <input type="number" v-model="movieBudget" id="movieBudget" class="border-b">
+        <input type="number" v-model="movieBudget" id="movieBudget" class="border-b rounded-md">
       </div>
-      <div class="my-xl">
+      <div class="flex gap-5 items-center">
         <label for="movieWebsite">Site web</label>
-        <input type="text" v-model="movieWebsite" id="movieWebsite" class="border-b">
+        <input type="text" v-model="movieWebsite" id="movieWebsite" class="border-b rounded-md">
       </div>
-      <div class="my-xl">
+      <div class="flex gap-5 items-center">
         <label for="movieRate">Note</label>
-        <input type="number" v-model="movieNote" id="movieRate" class="border-b">
+        <input type="number" v-model="movieNote" id="movieRate" class="border-b rounded-md">
       </div>
-      <div class="my-xl">
+      <div class="flex gap-5 items-center">
         <label for="movieOnline">En ligne</label>
-        <select v-model="movieOnline" id="movieOnline" class="border-b">
+        <select v-model="movieOnline" id="movieOnline" class="border-b rounded-md">
           <option :value="true">Oui</option>
           <option :value="false">Non</option>
         </select>
       </div>
-      <div class="my-xl">
+      <div class="flex gap-5 items-center">
         <label for="movieActors">Actors</label>
-        <select multiple v-model="movieActors" id="movieActors" class="border-b">
+        <select multiple v-model="movieActors" id="movieActors" class="border-b rounded-md">
           <option v-for="actor in actors" :key="actor.id" :value="actor['@id']">{{ actor.firstName ? actor.firstName : 'loading..' }} {{ actor.lastName ? actor.lastName : 'loading...' }}</option>
         </select>
       </div>
-      <div class="my-xl">
+      <div class="flex gap-5 items-center">
         <label for="movieFilename">Affiche</label>
         <input type="file" id="movieFilename" name="movieFilename" accept="image/png, image/jpeg" @change="fileChange">
       </div>
-      <div class="my-xl">
-        <button v-if="movie" type="submit">Modifier</button>
-        <button v-else type="submit">Créer</button>
+      <div class="flex gap-5 items-center">
+        <button class="min-h-[42px] w-fit bg-[#D64343] text-white rounded-md border border-[#D64343] hover:bg-transparent hover:text-[#D64343] px-5" v-if="movie" type="submit">Modifier</button>
+        <button class="min-h-[42px] w-fit bg-[#D64343] text-white rounded-md border border-[#D64343] hover:bg-transparent hover:text-[#D64343] px-5" v-else type="submit">Créer</button>
       </div>
     </form>
   </div>

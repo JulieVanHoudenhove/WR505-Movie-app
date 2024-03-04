@@ -125,35 +125,37 @@ async function updateActor() {
 </script>
 
 <template>
-  <div v-if="roles.includes('ROLE_ADMIN')">
+  <div v-if="roles.includes('ROLE_ADMIN')" class="flex items-center justify-center p-4 md:p-5 border-b rounded-t dark:border-gray-600">
     <h1 v-if="actor" class="text-2xl font-bold">Modifier un acteur</h1>
     <h1 v-else class="text-2xl font-bold">Créer un acteur</h1>
-    <form @submit.prevent="actor ? updateActor() : createActor()" v-if="loading">
-      <div class="my-xl">
+  </div>
+  <div class="flex flex-col items-center justify-center p-5">
+    <form class="flex flex-col gap-5 items-center" @submit.prevent="actor ? updateActor() : createActor()" v-if="loading">
+      <div class="flex gap-5 items-center">
         <label for="actorFirstName">Prénom</label>
-        <input type="text" v-model="actorFirstName" id="actorFirstName" class="border-b">
+        <input type="text" v-model="actorFirstName" id="actorFirstName" class="border-b rounded-md">
       </div>
-      <div class="my-xl">
+      <div class="flex gap-5 items-center">
         <label for="actorLastName">Nom</label>
-        <input type="text" v-model="actorLastName" id="actorLastName" class="border-b">
+        <input type="text" v-model="actorLastName" id="actorLastName" class="border-b rounded-md">
       </div>
-      <div class="my-xl">
+      <div class="flex gap-5 items-center">
         <label for="actorReward">Récompense</label>
-        <input type="text" v-model="actorReward" id="actorReward" class="border-b">
+        <input type="text" v-model="actorReward" id="actorReward" class="border-b rounded-md">
       </div>
-      <div class="my-xl">
+      <div class="flex gap-5 items-center">
         <label for="actorNationality">Nationalité</label>
-        <select v-if="nationalities" v-model="actorNationality" id="actorNationality" class="border-b">
+        <select v-if="nationalities" v-model="actorNationality" id="actorNationality" class="border-b rounded-md">
           <option v-for="nationality in nationalities" :value="nationality['@id']" :key="nationality['id']">{{ nationality.nationality }}</option>
         </select>
       </div>
-      <div class="my-xl">
+      <div class="flex gap-5 items-center">
         <label for="actorFilename">Photo</label>
         <input type="file" id="actorFilename" name="actorFilename" accept="image/png, image/jpeg" @change="fileChange">
       </div>
-      <div class="my-xl">
-        <button v-if="actor" type="submit">Modifier</button>
-        <button v-else type="submit">Créer</button>
+      <div class="flex gap-5 items-center">
+        <button class="min-h-[42px] w-fit bg-[#D64343] text-white rounded-md border border-[#D64343] hover:bg-transparent hover:text-[#D64343] px-5" v-if="actor" type="submit">Modifier</button>
+        <button class="min-h-[42px] w-fit bg-[#D64343] text-white rounded-md border border-[#D64343] hover:bg-transparent hover:text-[#D64343] px-5" v-else type="submit">Créer</button>
       </div>
     </form>
   </div>

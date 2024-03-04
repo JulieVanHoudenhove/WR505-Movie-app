@@ -36,13 +36,19 @@ async function getUser() {
 </script>
 
 <template>
-  <div>
-    <h1>Profile</h1>
-    <p>Username : {{ user.username }}</p>
-    <p>Email : {{ user.email }}</p>
-    <button @click="toggleForm = true">Edit</button>
-    <div v-if="toggleForm === true" class="bg-white">
-      <CreateProfile @update-profile="getUser(); toggleForm = false" :user="user" />
+  <div class="px-20 lg:px-30 xl:px-40">
+    <h1 class="text-4xl text-center p-10 font-bold">Profil</h1>
+    <div class="my-xl flex flex-col items-center gap-7">
+      <div class="flex flex-col items-center gap-5">
+        <p><span class="font-bold text-lg">Username : </span>{{ user.username }}</p>
+        <p><span class="font-bold text-lg">Email : </span>{{ user.email }}</p>
+      </div>
+      <button class=" w-fit min-h-[42px] bg-[#D64343] text-white rounded-md border border-[#D64343] hover:bg-transparent hover:text-[#D64343] px-5" @click="toggleForm = !toggleForm">Edit</button>
+      <div v-if="toggleForm === true" class="relative">
+        <div class="relative bg-white rounded-lg shadow-[0_0_10px_rgba(0,0,0,0.2)] dark:bg-gray-700">
+          <CreateProfile @update-profile="getUser(); toggleForm = false" :user="user" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
