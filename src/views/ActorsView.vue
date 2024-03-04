@@ -117,14 +117,14 @@ async function pageNext() {
         <input placeholder="rechercher un.e acteur.rice" type="text" v-model="recherche" @input="searchActor" class="border-b rounded-md">
         <button class="min-h-[42px] w-fit bg-[#D64343] text-white rounded-md border border-[#D64343] hover:bg-transparent hover:text-[#D64343] px-5" @click="searchActor">Recherche</button>
       </div>
-      <button class="w-fit min-h-[42px] bg-[#D64343] text-white rounded-md border border-[#D64343] hover:bg-transparent hover:text-[#D64343] px-5" v-if="roles === 'ROLE_ADMIN'" @click="toggleForm = true">Ajouter un.e acteur.rice</button>
-    </div>
-    <div class="my-xl">
-      <div>
-        <div v-if="toggleForm === true" class="bg-white">
+      <button class="block w-fit min-h-[42px] bg-[#D64343] text-white rounded-md border border-[#D64343] hover:bg-transparent hover:text-[#D64343] px-5 text-center" v-if="roles === 'ROLE_ADMIN'" @click="toggleForm = !toggleForm">Ajouter un.e acteur.rice</button>
+      <div v-if="toggleForm === true" class="relative">
+        <div class="relative bg-white rounded-lg shadow-[0_0_10px_rgba(0,0,0,0.2)] dark:bg-gray-700">
           <CreateActorView @create-actor="getActors(); toggleForm = false" />
         </div>
       </div>
+    </div>
+    <div class="my-xl">
       <div class="flex flex-col justify-center items-center 2xl:grid 2xl:grid-cols-2 gap-10">
         <div v-if="actors" v-for="actor in actors">
           <Actor @update-actor="getActors()" @delete-actor="getActors()" :actor="actor" />
