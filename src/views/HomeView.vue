@@ -47,30 +47,32 @@ onMounted(async () => {
 </script>
 
 <template>
-  <main class="mx-36">
-  <h1 class="text-2xl font-bold">Homepage</h1>
-  <p v-if="message">{{ message }}</p>
-  <div class="my-xl">
-    <h1 class="text-xl font-bold">4 films</h1>
-    <div class="flex justify-between">
-      <div v-if="movies" v-for="movie in movies.slice(0, 4)">
-        <Movie :movie="movie" />
+  <div class="px-20 lg:px-30 xl:px-40">
+    <h1 class="text-4xl text-center p-10 font-bold">Homepage</h1>
+    <p v-if="message">{{ message }}</p>
+    <div class="flex flex-col gap-10">
+      <div class="my-xl flex flex-col items-center gap-7">
+        <h1 class="text-xl font-bold">4 films</h1>
+        <div class="flex flex-col justify-center items-center 2xl:grid 2xl:grid-cols-2 gap-10">
+          <div v-if="movies" v-for="movie in movies.slice(0, 4)">
+            <Movie :movie="movie" />
+          </div>
+          <div v-else>
+            <p>Loading...</p>
+          </div>
+        </div>
       </div>
-      <div v-else>
-        <p>Loading...</p>
+      <div class="my-xl flex flex-col items-center gap-7">
+        <h1 class="text-xl font-bold">4 acteurs</h1>
+        <div class="flex flex-col justify-center items-center 2xl:grid 2xl:grid-cols-2 gap-10">
+          <div v-if="actors" v-for="actor in actors.slice(0, 4)">
+            <Actor :actor="actor" />
+          </div>
+          <div v-else>
+            <p>Loading...</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <div class="text-xl font-bold">
-    <h1>4 acteurs</h1>
-    <div class="flex justify-between">
-      <div v-if="actors" v-for="actor in actors.slice(0, 4)">
-        <Actor :actor="actor" />
-      </div>
-      <div v-else>
-        <p>Loading...</p>
-      </div>
-    </div>
-  </div>
-  </main>
 </template>
