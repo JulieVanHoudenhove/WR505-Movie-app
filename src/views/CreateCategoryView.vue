@@ -86,17 +86,19 @@ async function updateCategory() {
 </script>
 
 <template>
-  <div v-if="roles.includes('ROLE_ADMIN')">
+  <div v-if="roles.includes('ROLE_ADMIN')" class="flex items-center justify-center p-4 md:p-5 border-b rounded-t dark:border-gray-600">
     <h1 v-if="category" class="text-2xl font-bold">Modifier une catégorie</h1>
     <h1 v-else class="text-2xl font-bold">Créer une catégorie</h1>
-    <form @submit.prevent="category ? updateCategory() : createCategory()" v-if="loading">
-      <div class="my-xl">
+  </div>
+  <div class="flex flex-col items-center justify-center p-5">
+    <form class="flex flex-col gap-5 items-center" @submit.prevent="category ? updateCategory() : createCategory()" v-if="loading">
+      <div class="flex gap-5 items-center">
         <label for="categoryName">Nom de la catégorie</label>
-        <input type="text" class="border-b" id="categoryName" v-model="categoryName">
+        <input type="text" class="border-b rounded-md" id="categoryName" v-model="categoryName">
       </div>
-      <div class="my-xl">
-        <button v-if="category" type="submit">Modifier</button>
-        <button v-else type="submit">Créer</button>
+      <div class="flex gap-5 items-center">
+        <button class="min-h-[42px] w-fit bg-[#D64343] text-white rounded-md border border-[#D64343] hover:bg-transparent hover:text-[#D64343] px-5" v-if="category" type="submit">Modifier</button>
+        <button class="min-h-[42px] w-fit bg-[#D64343] text-white rounded-md border border-[#D64343] hover:bg-transparent hover:text-[#D64343] px-5" v-else type="submit">Créer</button>
       </div>
     </form>
   </div>
