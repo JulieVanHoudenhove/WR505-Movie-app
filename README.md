@@ -13,17 +13,17 @@
     git clone https://github.com/JulieVanHoudenhove/WR506-Movie-app.git
     ```
 2. Installer les dépendances
-  ```bash
-    npm i
-  ```
+     ```bash
+       npm i
+     ```
   ou 
-  ```bash
-    npm install
-  ```
+     ```bash
+       npm install
+     ```
 3. Modifier le fichier .env en rensignant le lien vers l'api
-  ```
-    VITE_SERVER_API_URL #(lien vers l'api)
-  ```
+     ```
+       VITE_SERVER_API_URL #(lien vers l'api)
+     ```
 4. Lancer le serveur
    - Développement
       ```bash
