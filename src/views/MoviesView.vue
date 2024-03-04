@@ -117,14 +117,14 @@ async function pageNext() {
         <input placeholder="rechercher un film" type="text" v-model="recherche" @input="searchMovie" class="border-b rounded-md">
         <button class="min-h-[42px] w-fit bg-[#D64343] text-white rounded-md border border-[#D64343] hover:bg-transparent hover:text-[#D64343] px-5" @click="searchMovie">Recherche</button>
       </div>
-      <button class="w-fit min-h-[42px] bg-[#D64343] text-white rounded-md border border-[#D64343] hover:bg-transparent hover:text-[#D64343] px-5" v-if="roles === 'ROLE_ADMIN'" @click="toggleForm = true">Ajouter un film</button>
-    </div>
-    <div class="my-xl">
-      <div>
-        <div v-if="toggleForm === true" class="bg-white">
+      <button @click="toggleForm = !toggleForm" v-if="roles === 'ROLE_ADMIN'" class="block w-fit min-h-[42px] bg-[#D64343] text-white rounded-md border border-[#D64343] hover:bg-transparent hover:text-[#D64343] px-5 text-center" type="button">Ajouter un film</button>
+      <div v-if="toggleForm === true" class="relative">
+        <div class="relative bg-white rounded-lg shadow-[0_0_10px_rgba(0,0,0,0.2)] dark:bg-gray-700">
           <CreateMovieView @create-movie="getMovies(); toggleForm = false" />
         </div>
       </div>
+    </div>
+    <div class="my-xl">
       <div class="flex flex-col justify-center items-center 2xl:grid 2xl:grid-cols-2 gap-10">
         <div v-if="movies" v-for="movie in movies">
           <Movie @update-movie="getMovies()" @delete-movie="getMovies()" :movie="movie" />
