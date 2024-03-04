@@ -64,27 +64,29 @@ async function editUser() {
 </script>
 
 <template>
-  <div>
-    <h1>Éditer le profil</h1>
-    <form @submit.prevent="editUser()">
-      <div>
+  <div class="flex items-center justify-center p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+    <h1 class="text-2xl font-bold">Éditer le profil</h1>
+  </div>
+  <div class="flex flex-col items-center justify-center p-5">
+    <form class="flex flex-col gap-5 items-center" @submit.prevent="editUser()">
+      <div class="flex gap-5 items-center">
         <label for="email">Email</label>
-        <input type="email" id="email" v-model="userEmail">
+        <input type="email" id="email" v-model="userEmail" class="border-b rounded-md">
       </div>
-      <div>
+      <div class="flex gap-5 items-center">
         <label for="username">Username</label>
-        <input type="text" id="username" v-model="userName">
+        <input type="text" id="username" v-model="userName" class="border-b rounded-md">
       </div>
-      <div>
+      <div class="flex gap-5 items-center">
         <label for="password">Password</label>
-        <input type="password" id="password" v-model="userPassword">
+        <input type="password" id="password" v-model="userPassword" class="border-b rounded-md">
       </div>
-      <div>
+      <div class="flex gap-5 items-center">
         <label for="confirmPassword">Confirm password</label>
-        <input type="password" id="confirmPassword" v-model="userConfirmPassword">
+        <input type="password" id="confirmPassword" v-model="userConfirmPassword" class="border-b rounded-md">
       </div>
-      <div>
-        <button v-if="userPassword === userConfirmPassword" type="submit">Update</button>
+      <div class="flex gap-5 items-center">
+        <button class="min-h-[42px] w-fit bg-[#D64343] text-white rounded-md border border-[#D64343] hover:bg-transparent hover:text-[#D64343] px-5" v-if="userPassword === userConfirmPassword" type="submit">Update</button>
         <p v-else>Vos mots de passe ne coïncident pas</p>
       </div>
     </form>

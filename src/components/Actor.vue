@@ -48,18 +48,27 @@ function deleteActor() {
 </script>
 
 <template>
-  <div v-if="actor">
-    <router-link :to="`/actor/`+ actor.id">
-      <img class="h-[310px]" v-if="actor.filename" :src="'http://localhost:8000/images/actors/'+actor.filename" :alt="'photo ' + actor.firstName + ' ' + actor.lastName">
-      <p>{{ actor.firstName }} {{ actor.lastName }}</p>
-      <p>Récompense : {{ actor.reward }}</p>
-      <p>Nationalité : {{ actor.nationality.nationality }}</p>
+  <div v-if="actor" class="rounded-[15px] max-w-[600px] p-5 border border-[rgba(0,0,0,0.14)] shadow-[0_0_10px_rgba(0,0,0,0.2)] flex flex-col gap-7">
+    <router-link class="flex flex-col md:flex-row gap-7" :to="`/actor/`+ actor.id">
+      <img class="h-[310px] rounded-md object-cover" v-if="actor.filename" :src="'http://localhost:8000/images/actors/'+actor.filename" :alt="'photo ' + actor.firstName + ' ' + actor.lastName">
+      <div class="flex flex-col justify-between gap-7">
+        <div>
+          <p><span class="font-bold text-lg">Prénom : </span>{{ actor.firstName }}</p>
+          <p><span class="font-bold text-lg">Nom : </span>{{ actor.lastName }}</p>
+          <p><span class="font-bold text-lg">Récompense : </span>{{ actor.reward }}</p>
+          <p><span class="font-bold text-lg">Nationalité : </span>{{ actor.nationality.nationality }}</p>
+        </div>
+      </div>
     </router-link>
-    <button @click="toggleForm = true" v-if="roles === 'ROLE_ADMIN'">Modifier</button>
-    <button @click="deleteActor()" v-if="roles === 'ROLE_ADMIN'">Supprimer</button>
+      <div class="flex gap-10 justify-end">
+        <button class=" w-fit min-h-[42px] bg-[#D64343] text-white rounded-md border border-[#D64343] hover:bg-transparent hover:text-[#D64343] px-5" @click="toggleForm = !toggleForm" v-if="roles === 'ROLE_ADMIN'">Modifier</button>
+        <button class=" w-fit min-h-[42px] hover:bg-[#D64343] hover:text-white rounded-md border border-[#D64343] bg-transparent text-[#D64343] px-5" @click="deleteActor()" v-if="roles === 'ROLE_ADMIN'">Supprimer</button>
+      </div>
   </div>
-  <div v-if="toggleForm">
-    <CreateActorView @update-actor="emit('updateActor'); toggleForm = false" :actor="actor" />
+  <div v-if="toggleForm === true" class="relative">
+    <div class="relative bg-white rounded-lg shadow-[0_0_10px_rgba(0,0,0,0.2)] dark:bg-gray-700">
+      <CreateActorView @update-actor="emit('updateActor'); toggleForm = false" :actor="actor" />
+    </div>
   </div>
 </template>
 

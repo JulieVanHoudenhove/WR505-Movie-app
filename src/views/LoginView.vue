@@ -34,26 +34,28 @@ const login = () => {
     localStorage.setItem('token', data.token)
     localStorage.setItem('message', 'You have been logged in')
     // On redirige vers la page d'accueil
-    router.push('/')
+    location.href = '/'
   })
 }
 </script>
 
 <template>
-<h1>Connexion</h1>
-  <p v-if="reconnexionMessage">{{ reconnexionMessage }}</p>
-  <p v-if="message">{{ message }}</p>
-<div>
-  <div>
-    <label for="email">Email</label>
-    <input type="email" id="email" v-model="email" class="border-b">
+  <div class="my-10 px-20 lg:px-30 xl:px-40 flex flex-col items-center gap-7">
+    <h1 class="text-2xl font-bold">Connexion</h1>
+    <p v-if="reconnexionMessage">{{ reconnexionMessage }}</p>
+    <p v-if="message">{{ message }}</p>
+    <div class="my-xl flex flex-col items-center gap-7">
+      <div class="flex gap-5 items-center">
+        <label for="email">Email</label>
+        <input type="email" id="email" v-model="email" class="border-b rounded-md">
+      </div>
+      <div class="flex gap-5 items-center">
+        <label for="password">Mot de passe</label>
+        <input type="password" id="password" v-model="password" class="border-b rounded-md">
+      </div>
+      <button class="min-h-[42px] w-fit bg-[#D64343] text-white rounded-md border border-[#D64343] hover:bg-transparent hover:text-[#D64343] px-5" @click="login">Connexion</button>
+    </div>
   </div>
-  <div>
-    <label for="password">Mot de passe</label>
-    <input type="password" id="password" v-model="password" class="border-b">
-  </div>
-  <button @click="login">Connexion</button>
-</div>
 </template>
 
 <style></style>
