@@ -43,10 +43,12 @@ async function getUser() {
         <p><span class="font-bold text-lg">Username : </span>{{ user.username }}</p>
         <p><span class="font-bold text-lg">Email : </span>{{ user.email }}</p>
       </div>
-      <button class=" w-fit min-h-[42px] bg-[#D64343] text-white rounded-md border border-[#D64343] hover:bg-transparent hover:text-[#D64343] px-5" @click="toggleForm = true">Edit</button>
-    </div>
-    <div v-if="toggleForm === true" class="bg-white">
-      <CreateProfile @update-profile="getUser(); toggleForm = false" :user="user" />
+      <button class=" w-fit min-h-[42px] bg-[#D64343] text-white rounded-md border border-[#D64343] hover:bg-transparent hover:text-[#D64343] px-5" @click="toggleForm = !toggleForm">Edit</button>
+      <div v-if="toggleForm === true" class="relative">
+        <div class="relative bg-white rounded-lg shadow-[0_0_10px_rgba(0,0,0,0.2)] dark:bg-gray-700">
+          <CreateProfile @update-profile="getUser(); toggleForm = false" :user="user" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
