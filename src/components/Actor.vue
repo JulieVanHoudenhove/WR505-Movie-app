@@ -3,6 +3,7 @@ import router from "@/router";
 import { ref } from "vue";
 import CreateActorView from "@/views/CreateActorView.vue";
 
+const API_URL = import.meta.env.VITE_SERVER_API_URL;
 const props = defineProps({
   actor: {
     type: Object,
@@ -24,7 +25,7 @@ const roles = decodeToken.roles[0];
 function deleteActor() {
   const isConfirmed = window.confirm('Êtes-vous sûr de vouloir supprimer cet.te acteur.rice ?');
   if (isConfirmed) {
-    fetch('http://localhost:8000/api/actors/' + props.actor.id, {
+    fetch( API_URL + '/api/actors/' + props.actor.id, {
       method: 'DELETE',
       headers: {
         'Authorization': 'Bearer ' + token

@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue'
 import router from "@/router";
 
+const API_URL = import.meta.env.VITE_SERVER_API_URL;
 const token = localStorage.getItem('token')
 if (!token) {
   router.push('/login')
@@ -47,7 +48,7 @@ onMounted(async () => {
 
 async function getNationality() {
   try {
-    const response = await fetch('http://localhost:8000/api/nationalities?pagination=false', {
+    const response = await fetch(API_URL + '/api/nationalities?pagination=false', {
       headers: {
         'Authorization': 'Bearer ' + token
       }
@@ -76,7 +77,7 @@ async function createActor() {
   formData.append('nationality', actorNationality.value);
 
   try {
-    const response = await fetch('http://localhost:8000/api/actors', {
+    const response = await fetch(API_URL + '/api/actors', {
       method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + token
@@ -102,7 +103,7 @@ async function updateActor() {
   formData.append('nationality', actorNationality.value);
 
   try {
-    const response = await fetch('http://localhost:8000/api/actors/' + props.actor.id, {
+    const response = await fetch(API_URL + '/api/actors/' + props.actor.id, {
       method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + token

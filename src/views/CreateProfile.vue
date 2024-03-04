@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue'
 import router from "@/router";
 
+const API_URL = import.meta.env.VITE_SERVER_API_URL;
 const token = localStorage.getItem('token')
 if (!token) {
   router.push('/login')
@@ -40,7 +41,7 @@ async function editUser() {
   formData.append('password', userPassword.value);
 
   try {
-    const response = await fetch('http://localhost:8000/api/me/update', {
+    const response = await fetch(API_URL+ 'api/me/update', {
       method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + token

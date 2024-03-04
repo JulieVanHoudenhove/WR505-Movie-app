@@ -4,6 +4,7 @@ import {onMounted, ref} from "vue";
 import Movie from "@/components/Movie.vue";
 import router from "@/router";
 
+const API_URL = import.meta.env.VITE_SERVER_API_URL;
 const token = localStorage.getItem('token')
 if (!token) {
   router.push('/login')
@@ -17,7 +18,7 @@ const id = route.params.id
 let actor = ref('')
 
 onMounted(async () => {
-  const response = await fetch('http://localhost:8000/api/actors/' + id, {
+  const response = await fetch(API_URL + '/api/actors/' + id, {
     headers: {
       'Authorization': 'Bearer ' + token
     }

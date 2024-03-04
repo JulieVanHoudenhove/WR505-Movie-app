@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import router from "@/router";
 import CreateCategoryView from "@/views/CreateCategoryView.vue";
 
+const API_URL = import.meta.env.VITE_SERVER_API_URL;
 const token = localStorage.getItem('token')
 if (!token) {
   router.push('/login')
@@ -24,7 +25,7 @@ const roles = decodeToken.roles[0];
 async function deleteCategory() {
   const isConfirmed = window.confirm('Êtes-vous sûr de vouloir supprimer cette catégorie ?');
   if (isConfirmed) {
-    await fetch('http://localhost:8000/api/categories/' + props.category.id, {
+    await fetch( API_URL+ '/api/categories/' + props.category.id, {
       method: 'DELETE',
       headers: {
         'Authorization': 'Bearer ' + token
