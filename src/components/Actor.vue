@@ -51,7 +51,7 @@ function deleteActor() {
 <template>
   <div v-if="actor" class="rounded-[15px] max-w-[600px] p-5 border border-[rgba(0,0,0,0.14)] shadow-[0_0_10px_rgba(0,0,0,0.2)] flex flex-col gap-7">
     <router-link class="flex flex-col md:flex-row gap-7" :to="`/actor/`+ actor.id">
-      <img class="h-[310px] rounded-md object-cover" v-if="actor.filename" :src="'http://localhost:8000/images/actors/'+actor.filename" :alt="'photo ' + actor.firstName + ' ' + actor.lastName">
+      <img class="h-[310px] rounded-md object-cover" v-if="actor.filename" :src="API_URL +actor.filename" :alt="'photo ' + actor.firstName + ' ' + actor.lastName">
       <div class="flex flex-col justify-between gap-7">
         <div>
           <p><span class="font-bold text-lg">Prénom : </span>{{ actor.firstName }}</p>
