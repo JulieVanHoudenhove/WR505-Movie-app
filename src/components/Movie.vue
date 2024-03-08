@@ -52,7 +52,7 @@ function deleteMovie() {
 <template>
   <div v-if="movie" class="rounded-[15px] max-w-[600px] p-5 border border-[rgba(0,0,0,0.14)] shadow-[0_0_10px_rgba(0,0,0,0.2)] flex flex-col gap-7">
     <router-link class="flex flex-col md:flex-row gap-7" :to="`/movie/`+ movie.id">
-      <img class="h-[310px] rounded-md object-cover" v-if="movie.filename" :src="API_URL+movie.filename" :alt="'affiche ' + movie.title">
+      <img class="h-[310px] rounded-md object-cover" v-if="movie.filename" :src="API_URL+'/images/movies/'+movie.filename" :alt="'affiche ' + movie.title">
       <div class="flex flex-col justify-between gap-7">
         <div>
           <p><span class="font-bold text-lg">Titre : </span>{{ movie.title }}</p>
